@@ -1,0 +1,113 @@
+\newpage
+\chapter{An implementation of DSMM}
+
+\subsubsection{Net input inspection}
+
+N-gram ``hashing'' started from the embeddings generated in \ref{ssec:wemb} and
+produced 2 term matrices for corpus and queries (the following three modalities
+were considered: unstemmed without stopwords removal; unstemmed with stopwords
+removal; stemmed + stopwords removal)
+
+157394 (unique words in corpus) + 1459 (unique words in queries) = 158853
+reduced to 18846 n-grams.
+
+Only the documents in pre-ranked results (see \ref{sssec:galretr} subsection)
+were considered.
+
+Shape of term matrices (both corpus and queries): (2079, 18846)
+
+Each term matrix has different vectors that contain the frequencies of their
+n-gram in the document/query. They are hot vectors of n-gram (very sparse):
+
+Corpus term matrix - non zero frequency: 14.039\%
+
+Queries term matrix - non zero frequency: 0.241\%
+
+As example, the distributions of the first 1000 ngrams frequencies of the first
+100 documents/queries were plotted:
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{Corpus_term_ngrams.png}
+  \caption{A slice of the first 1000 ngrams frequencies of the first 100
+documents (stemmed; with stopwords removal)}
+  \label{fig:ngrams_corpus}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{Queries_term_ngrams.png}
+  \caption{A slice of the first 1000 ngrams frequencies of the first 100
+queries; (stemmed; with stopwords removal)}
+  \label{fig:ngrams_queries}
+\end{figure}
+
+\textbf{Unsemmed; without stopwords removal ngrams inspection}:\\
+
+Most frequent ngrams for corpus: \#in, \#of, \#an
+
+Most frequent ngrams for queries: \#re, \#pr, \#cz \\
+
+Most frequent ngrams (all term matrixes considered): \\
+
+Most frequent ngrams for corpus: \#th, the, he\#
+
+Most frequent ngrams for queries: \#th, the, he\# \\
+
+\textbf{Unstemmed; with stopwords removal ngrams inspection}:\\
+
+Most frequent ngrams for corpus: \#co, \#re, \#pr
+
+Most frequent ngrams for queries: \#re, \#pr, \#cz \\
+
+Most frequent ngrams (all term matrixes considered): \\
+
+Most frequent ngrams for corpus: ed\#, ion, ing
+
+Most frequent ngrams for queries: ed\#, ion, ing \\
+
+\textbf{Stemmed; with stopwords removal ngrams inspection}:\\
+
+Most frequent ngrams in the slice (only first 1000 ngrams were considered, so
+they all start with \#):\\
+
+Most frequent ngrams for corpus: \#co, \#re, \#pr
+
+Most frequent ngrams for queries: \#re, \#pr, \#cz \\
+
+Most frequent ngrams (all term matrixes considered): \\
+
+Most frequent ngrams for corpus: on\#, ion, \#co
+
+Most frequent ngrams for queries: on\#, ion, \#co \\
+
+\subsubsection{Neural network}
+
+Corpus term vector shape (2079, 18846)
+
+Queries term vector shape (2079, 18846)
+
+Ground truth shape (2079,)
+
+\begin{table}[H]
+\begin{tabular}{p{3.2cm}llll}
+\textbf{Layer (type)} & \textbf{Output shape} & \textbf{Param} \# & \textbf{Connected to} & \\
+Queries\_ngrams\_input (InputLayer) & (None, 18846) & 0 &  & \\
+Documents\_ngrams\_input (InputLayer) & (None, 18846) & 155 &  & \\
+dense\_4 (Dense) & (None, 300) & 5654100 & Queries\_ngrams\_input[0][0] & \\
+dense\_1 (Dense) & (None, 300) & 5654100 & Documents\_ngrams\_input[0][0] & \\
+dense\_5 (Dense) & (None, 300) & 90300 & dense\_4[0][0] & \\
+dense\_2 (Dense) & (None, 300) & 90300 & dense\_1[0][0] & \\
+dense\_6 (Dense) & (None, 128) & 38528 & dense\_5[0][0] & \\
+dense\_3 (Dense) & (None, 128) & 38528 & dense\_2[0][0] & \\
+Cosine\_similarity (Dot) & (None, 1) & 0 & dense\_6[0][0], dense\_3[0][0] & \\
+reshape\_1 (Reshape) & (None, 1) & 0 & Cosine\_similarity[0][0] & \\
+Softmax\_function (Lambda) & (None, 1) & 0 & reshape\_1[0][0] & \\
+\end{tabular}
+\end{table}
+
+Total params: 11565856
+
+Trainable params: 11565856
+
+Non-trainable params: 0

@@ -1,0 +1,183 @@
+\newpage
+\chapter{Reproducibility}
+
+Science advances on a foundation of trusted discoveries. ``Trust'' depends on the reproducibility of an experiment, which leads scientists to gain confidence in their conclusions. 
+
+The American Physical Society (APS), the world's second largest organization of physicist, emphasizes reproducibility in the following definition of science \footnote{\url{https://www.aps.org/policy/statements/99_6.cfm}}: ``(\dots) the success and credibility of science are anchored in the willingness of scientists to expose their ideas and results to independent testing and replication by others. This requires the open exchange of data, procedures and materials.''.
+
+So, reproducibility is key for reliable, referenceable and extensible research. Experimental papers are therefore most useful when their results can be tested and generalized by people not involved in the original work.
+
+In later years, there is growing alarm about results that cannot be reproduced. The causing factors may vary, including increased levels of scrutiny, complexity of experiments and statistics, fraudulent results, pressures on researchers, poor experimental design, execution and analysis.
+
+\section{Reproducibility in computer science}
+
+Reproducibility assumes differents meanings in different disciplines.
+
+In computer science, reproducibility often refers to the ability to reproduce computations alone (it relates exclusively to sharing documented data and code), while replication describes the redoing of whole experiments.
+
+In this sense, the experiment studied in this thesis has been both reproduced and replicated.
+
+Reproducing (complex) computational research poses some challenges (\cite{comprepro}). The problem arises when, for example, in a traditional article, the author simply outlines the relevant computations without complete documentation, which would ideally include experimental data, parameter values, and the author's programs.
+If someone wants to use and verify the work must reimplement it, which is often a painful process.
+
+Even when the author's source files are available, they can be undocumented or difficult to understand, and can only recompute results by invoking the various programs exactly as the author invoked them.
+
+A good practice of reproducibility is necessary in order to allow previously developed methodology to be effectively applied on new data, to allow reuse of code and results for new projects and, more generally, to save time.
+
+\subsection{Reproducibility in IR}
+
+Reproducibility of empirical results is a fundamental requirement of disciplines such as IR, a primarily empirical discipline where advances are built on experimental validation of proposed methods.
+
+Experimentation in systems-oriented IR research typically involves two major aspects: an IR system and one or more test collections.
+
+Reproducibility is partly ensured by the widespread use of standardised test collections, experimental protocols and evaluation measures, such as those provided/defined by TREC, although with a neural approach they are no longer sufficient.
+
+IR community has started only recently to consider the topic of reproducibility as part of the review process of major conferences. Starting from 2015, ECIR announced a Reproducibility Track \footnote{\url{http://ecir2019.org/reproducibility_track/}} and SIGIR started the Open-Source IR Reproducibility Challenge \footnote{\url{https://sigir.org/sigir2019/program/workshops/osirrc}}.
+
+\section{PRIMAD}
+
+PRIMAD is a theoretical model general enough for computer science (and related fields) (\cite{primad}) and acts as a framework to distinguish the major components of an experiment:
+
+\begin{itemize}
+\item \textbf{R: Research goal} - what is the purpose of the study?
+\item \textbf{M: Method} - which approach was considered by the researcher?
+\item \textbf{I: Implementation} - how was the method implemented (which programming language was used)?
+\item \textbf{P: Platform} - which software and hardware resources were used? 
+\item \textbf{D: Data} - what data were used as input? And how were set the parameters (if any exist) of the method?
+\item \textbf{A: Actor} - who was the researcher?
+\end{itemize}
+
+Possible changes (often some of them happens simultaneously):
+\begin{itemize}
+\item $R \rightarrow R'$: one or more components of the experiment are \textit{re-purposed} to answer another research question.
+\item $M \rightarrow M'$: an alternative method is chosen to conduct the experiment (therefore the implementation change accordingly).
+\item $I \rightarrow I'$: the researcher uses another implementation or makes its own.
+\item $P \rightarrow P'$: the platform on which the experiment was run changes (there may be subtle effects on the outcomes of the experiment).
+\item $D \rightarrow D'$: the input data for the experiment may change in order to test the generality of the method. The parameters of the method may change as well (robustness).
+\item $A \rightarrow A'$: the experiment is reproduce by another actor.
+\end{itemize}
+
+Reproducibilty increases as the number of PRIMAD's \textbf{shared} components increases.
+There are two elements that are not considered in the PRIMAD model:
+
+\begin{itemize}
+\item \textbf{Transparency}: it's the ability to look into all necessary components to verify that the experiment does what it claims;
+\item \textbf{Consistency}: two experiments conduct with the same criteria must lead to equal outcomes.
+\end{itemize}
+
+\subsection{PRIMAD for System-oriented Evaluation}
+
+A system-oriented evaluation is concerned with the ability of a retrieval system to find answers in a test collection.
+
+Evaluation in IR has already been discussed in the background chapter. It can be noticed that Cranfield paradigm enhance reproducibility since the moment that the elements in the triple $(\mathcal{D}, \mathcal{T}, \mathcal{GT})$ are fixed.
+
+Runs with a given system on the same data triples should produce identical results, and more generally if the retrieval methodology is sufficiently well described then a fresh implementation should be identical.
+
+Here, I present an instance of the PRIMAD model applied to system-oriented evaluation.
+
+\begin{itemize}
+\item Research goal: produce a high-quality ranking of answers, on average across a set of queries.
+\item Method: mapping from the query to an ordering of the documents (using a similarity function).
+\item Implementation and platform: the retrieval system used and the environment in which the study was carried out.
+\item Actor: the experimenter.
+\item Data: test collection used in the experiment.
+\end{itemize}
+
+\subsection{Obstacles to reproducibility}
+
+Even though a shared collection provides sufficient basis for reproducibile research, there are still some possible obstacles to discuss.
+
+Retrieval systems are huge complex pieces of software that often depend on other resources such as dictionaries, stemmers, stopwords, statistical and machine learning tools. So, it is not always possible to encapsulate the complete environment of the experiment, and behaviour of the system will change as the environment changes.
+
+Moreover there are others obstacles regarding the availability of data collections: privacy or limitations of anonymization, confidentiality, volatility of data, size of data (and the lack of adequate computing resources).
+
+\section{Instance of PRIMAD for this study}
+
+Instance for DRMM:
+
+\begin{itemize}
+\item \textbf{R} - Study a deep relevance matching model (DRMM) for ad-hoc retrieval
+\item \textbf{M} - Data preprocessing (as illustrated in the first chapter, \ref{sec:rspc}), building the model DRMM, training, testing and evaluation (using a standard TREC collection)
+\item \textbf{I} - Two implementations were found \footnote{\url{https://github.com/NTMC-Community/MatchZoo}{MatchZoo} \cite{matchzoo} and \url{https://github.com/faneshion/DRMM}}
+\item \textbf{P} - Galago for initial retrieval, the authors made no additional assumptions
+\item \textbf{D} - Robust04 TREC collection, initial retrieval model parameters, preprocessing parameters, DRMM parameters
+\item \textbf{A} - Jiafeng Guo, Yixing Fan, Qingyao Ai, W. Bruce Croft
+\end{itemize}
+
+Changes applied:
+
+\begin{itemize}
+\item $R \rightarrow R'$: Same research goal
+\item $M \rightarrow M'$: Same method
+\item $I \rightarrow I'$: I reproduce the experiment firstly with one implementation already given and then I made my own implementation in Python
+\item $P \rightarrow P'$: I used Terrier for the initial retrieval, builded the model with Tensorflow, (Evaluation) Trec eval
+\item $D \rightarrow D'$: Same input data
+\item $A \rightarrow A'$: Emanuele Carraro
+\end{itemize}
+
+Because most retrieval engines are relatively complex, multi-component, highly configurable systems, precisely reproducing a set of experimental results can be challenging in the absence of a detailed description of the retrieval engine used and its settings.
+
+Such a description should preferably cover at least the following components of the IR system:
+
+\begin{itemize}
+ \item tokenisation/parsing method used: which parts of a text are tokenised, what characters are regarded as token delimiters, the nature of the tokens themselves (e.g., words, n-grams), which tokens are discarded, if any (e.g., strings consisting of numerals only), and so on.
+ \item Stopword list used, if any.
+ \item Stemming algorithm used, if any.
+ \item Additional indexing units (e.g., phrases and named entities) identified, if any, and details of the identification method used.
+ \item Details of retrieval model used (e.g. in language modeling the smoothing method used and values of parameters).
+ \item Information about other techniques (e.g., reranking, query expansion) that are used on top of a basic, keyword-matching approach to ranked retrieval.
+\end{itemize}
+
+In practice, however, many of the above details are often missing from the system descriptions provided in scholarly articles.
+
+In most cases, authors mention only the retrieval model and the engine that was used (particularly when it is an open-source engine such as Indri, Lucene, or Terrier) along with some additional information, such as the stopword list used, and the stemming method employed.
+
+Missing details lead to potential reproducibility issues, since the various components of an IR system may, in general, have a significant effect on the overall performance of the system.
+
+\section{How to improve reproducibility}
+
+To ensure reproducibility, one should provide the following items: research question and variables used in the experiment, experimental design, participant characteristics, experimental protocol, environmental conditions, data collections, retrieval systems, baseline results, methods and assumptions for data analysis, degree of control on the system.
+
+\subsection{Ten Simple Rules for Reproducible Computational Research}
+
+The following ``rules'' define a set of helpful information to be put on a project documentation for reproducibility purposes (\cite{10reprule}).
+
+\begin{enumerate}
+    \item The process (sequence of steps) that originate a result should be documented (e.g. shell scripts, makefiles).
+    \item The execution of programs should be preferred over manual procedures to modify data. Such manual procedures are not only inefficient and error-prone, they are also difficult to reproduce, and might not be documented.
+    \item The programs exact versions used originally should be documented.
+    \item When a continually developed piece of code (typically a small script) has been used to generate a certain result, it is necessary to keep track of all of its versions (e.g. using a version control system, such as Subversion, Git, or Mercurial).
+    \item Having easily accessible intermediate results may be of great value.
+    \item Many analyses and predictions include some elements of randomness, thus, it should be used an initial seed for all such processes and report it in documentation.
+    \item When plotting, it can be useful to store both the underlying data and the processed values that are directly visualized.
+    \item When working with summarized results, the underlying data should be generated and validated at least once.
+    \item Connect a given textual statement (interpretation, claim, conclusion) to the precise results underlying the statement, already by the first time they are formulated.
+    \item All input data, scripts, versions, parameters, and intermediate results should be made publicly and easily accessible.
+\end{enumerate}
+
+\section{Reproducibility in Neural IR}
+
+When IR employs neural networks to develop a retrieval model, the reproducibility task gets even more complex.
+
+Neural IR is quite a new topic of interest that started to appear both in SIGIR and ECIR from 2016 and only in later years papers from these conferences have been taken as subject of replicability and reproducibility (see reports from SIGIR workshops on NeuIR \footnote{\url{https://staff.fnwi.uva.nl/m.derijke/wp-content/papercite-data/pdf/craswell-report-2016.pdf} and \url{http://sigir.org/wp-content/uploads/2018/01/p152.pdf}}.
+
+Some papers that tackle the issue of reproducibility in neural IR are \cite{neurhype} and \cite{anserini}, in which the authors claim that some works compare themselves against ``weak'' baselines - e.g. bag-of-words methods such as Bm25 and QL often with parameters poorly tuned, in order to appear higher in IR leaderboards.
+
+These works show relative improvements, which are not additive. In some cases they can lead to the false belief that newest neural approaches are actually more efficient than IR baselines and as a consequence, a stagnation of results.
+
+\cite{anserini} proposes an open-source IR toolkit built on Lucene \footnote{\url{https://github.com/castorini/anserini}} that address the problem of reproducible baselines. \cite{neurhype} instead propose various solutions, among which the adoption of a execution-centric leaderboard and a cultural shift. Other works like \cite{reproconvneurir} and \cite{axiomneuir} instead focuses on replicating and reproducing (and extending - e.g. with regularization techniques) a neural IR model that usually show some significant improvement over traditional IR methods.
+
+Some major issues in reproducing a neural IR model are the usage of off-the-shelf embeddings, maybe built with a private text collection, the insufficient documentation of the hyper-parameter choices and the introduction of randomness through different sources.
+
+Some randomness sources are the following:
+
+\begin{itemize}
+\item shuffling of dataset before training, if any;
+\item k-fold cross validation, or more specifically, how to choose the folds;
+\item random initialization of layer weights - neural networks often initialized the weights of their
+layer with values sampled from a particular distribution;
+\item noisy hidden layers (e.g. dropout layers set to zero the output of random nodes);
+\item changes in ML frameworks: e.g. switching Keras backend from Thean to Tensorflow.
+\end{itemize}
+
+Typically, to ensure reproducibility, it's a good practice to run the network many times and use statistics to summarize the performance of the model and use them for comparison. Unfortunately this may require too much time so another best practice is to use a fixed seed whenever there is randomness introduced.

@@ -1,0 +1,64 @@
+\newpage
+\chapter{Discussion and conclusions}
+
+This thesis had two main objectives: the conduction of an analysis of Neural IR and the reproduction of the work of Guo et al. (DRMM, \cite{drmm}).
+
+Firstly, I introduced the field of study, described a search engine at a high level, some traditional retrieval algorithms and the evaluation methodology in IR.
+
+Then, I reviewed some of the most relevant and recent works of Neural IR, an hybrid field that put together machine learning techniques and IR.
+
+Although it is not clear yet what are the potential benefits of Neural IR to IR, in recent years - with the increasing data availability and computing power - it has been a trending topic within IR community.
+
+Some traditional models based on a probabilistic approach (e.g. Bm25) or pseudo-relevance feedback (e.g. RM3) seems to be hard to beat for neural models based on raw text (at least in a relatively small collection of news like Robust04 \cite{rob04}).
+
+Craswell et al. in \cite{nn4ir} argue that this may be caused by inadequate neural architectures for tasks of ad-hoc retrieval: the problem that this type of task faces is tied with the ability of a system to find out relevant documents with respect to a query.
+
+Being a multi-faceted and abstract concept, relevancy is very difficult to model through a neural architecture.
+
+In an ad-hoc retrieval setting, the documents in a test collection are typically heterogeneous: they are written by different authors and their length is variable. This leads to the critical vocabulary mismatch problem (between queries and documents) and diverse relevance pattern requirements (e.g. scope hypothesis vs verbose hypothesis).
+
+Given this setting, it is not surprising that most of the recent Neural IR models rely on finding good and dense representations for queries and documents, and extract valuable information from their interactions. On the other hand, traditional systems rely on statistical properties of text.
+
+As discussed in chapter 4 (\ref{chap:neurIR}), the former aim towards semantic matching, while the latter aim towards syntactic matching. These two properties may be exploited or combined on the basis of the task considered.
+
+For instance, documents that contains query words are retrieved by statistical-based/lexical models, while documents that do not contain query terms, but are semantically similar to the query, are more likely to be retrieved by semantic models. However, there is no guarantee on their relevancy. DRMM tackles the problem by combining these properties and using supervised learning.
+
+DRMM is a deep relevance matching model proposed by Guo et al. in 2016 (\cite{drmm}) that tries to merge some peculiar aspects of neural architectures with properties of traditional retrieval algorithms. It employs word embeddings and allows the use of IDF and exact matching (for out of vocabulary words) to compute a similarity score between a query and a document.
+
+Most of Neural IR models (including DRMM) have two problems (linked together): they are time-inefficient for document retrieval and most of them work only in re-ranking mode.
+
+In fact, DRMM rely on a first-stage ranker that returns the top 2000 documents for each topic in the collection, thus, limiting the recall of its results.
+
+For this reason, it is very important to rely on high quality pre ranked results (they should have an equal number of retrieved documents for each topic and a ``sufficient'' number of relevant documents).
+
+As the authors did in the original paper, I run two retrieval algorithms for baseline comparison: DirichletLM and Bm25. Then, I parsed the test collection and applied a very soft pre-processing: the text was white-space tokenized, lower-cased, and stemmed with the Krovetz stemmer.
+
+Stopwords removal was performed both on documents and query words with the INQUERY stoplist. Small changes at this stage can have a big impact in later stages: using different tokenization, stemming, apply lemmatization etc\dots can lead to significant different behaviors of neural models, often difficult to track.
+
+Another important passage was the generation of word embeddings with Word2Vec (its hyper parameters were set according to the original paper).
+
+My results indicated that when generating word embeddings on the test collection, DRMM performance improved. When using off-shelf embeddings, trained on external texts, the system performance got worse.
+
+To sum up, the performance of my implementation of DRMM were influenced by three critical factors: the run to re-rank, the preprocessing steps applied and the word embeddings used.
+
+Additionaly, I observed that, even with the same pre-ranked documents, the neural IR models that Guo et al. used as comparison and DRMM returned very different results.
+
+For instance, DSSM achieved a MAP of 0.095, while its convolutional variant achieves 0.067. ARCI and ARCII performances were poor as well: 0.041 and 0.067 values of MAP respectively. All of these models started with a run that achieved a MAP of 0.253 with the QL algorithm.
+
+This means that a serious problem of adopting a re-ranking strategy with neural IR models is that they can actually worsen the performance of the first-stage ranker.
+
+I wondered what differentiates DRMM from other models I reviewed in order to justify such a gap in the results. I have found 3 possible answers:
+
+\begin{itemize}
+    \item its \textit{asymmetric architecture} based on \textit{query split};
+    \item the usage of a query gate in the network to weigh query terms individually (and, particularly, the usage of IDF, as my results justify);
+    \item the matching histograms mapping representation, which is suitable for strength-related signals.
+\end{itemize}
+
+The third property points out that DRMM does not takes into consideration position-related signals. This is somehow counter-intuitive, as many neural models that deal with text (in NLP particularly) take into account words order (e.g. LSTM, RNN). Comparisons between such models and DRMM were not mentioned, as IR and NLP have different objectives. In fact, in the original paper, DRMM was tested with a different input representation - one that considered positional signals - and its performance worsened. That indicates that ad hoc retrieval is a strength-related task rather than position-related.
+
+Although the authors succeded in beating the baseline models with DRMM, I have not find the same results. My implementation of DRMM was able in some cases to get closer to the baseline, but was not able to improve them.
+
+Some of the problems that I faced during the implementation of DRMM were systematic mistakes that I made during the implementation, others may be caused by an incorrect estimation of unknown parameters or missing unknown/additional procedures applied by the authors (for instance, they did not explain how to deal with the ``query imbalance'' problem).
+
+Although I encountered some difficulties while trying to reproduce the work, it was a good (and challenging) opportunity for me to explore this new area of research.
