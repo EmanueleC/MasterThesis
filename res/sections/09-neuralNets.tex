@@ -123,12 +123,12 @@ A MLP with $d$ input units, $H$ hidden units, and $K$ outputs has $H \cdot (d+1)
 
 Let $e$ be the number of training epochs for the MLP. Then, $H$ and $e$ are two free parameters (in this simplified setting) - also known as hyper parameters (but there can be others, e.g. mini batches size).
 
-The tuning of these parameters is aim to minimize the generalization error (i.e. the error on the test set).
+The tuning of these parameters aim to minimize the generalization error (i.e. the error on the test set).
 A simple model with abundant data can generalize well, while a complex model with fewer examples typically cannot, as it tend to overfit.
 
 A similar behavior occurs when training is continued  too long: the training error decreases, but the generalization error starts to increase beyond a certain point. This problem can be alleviated by \textit{stopping early} the learning process.
 \todo{riportare figura?}
-There are many factors govern whether a model will generalize well and some of them are: the number of tunable parameter; the values taken by the parameters and the number of training examples.
+There are many factors that influence whether a model will generalize well and some of them are: the number of tunable parameter; the values taken by the parameters and the number of training examples.
 
 \subsection{Overfitting / Underfitting problem and regularization}
 
@@ -150,12 +150,12 @@ In order to achieve this result, \textit{regularization} is often used. It is a 
  \item \textbf{Early stopping}: stops the training before it overfits the data by monitoring a given metric (e.g. validation loss).
 \end{itemize}
 
-When the dataset available is too small, it can be exploited through k-fold cross validation so that each example in it is used both for training and validation and exactly once for validation.
+When the dataset available is too small, it can be exploited through k-fold cross validation so that each example in it is used both for training and (exactly once) for validation.
 
 With K-fold cross-validation, the dataset is partitioned into k parts. Then, k-1 parts are used as training set and the remaining part is used as validation set. This process is repeated k times so that each part is used exactly once as validation set.
 The k results can then be averaged to produce a single estimation.
 
-It is often used for parameters tuning by doing it for several possible values of a set of parameters.
+It is often used for parameters tuning: k-fold cross validation is typically performed several times for different set of values associated to the parameter(s) to estimate.
 
 \subsection{Universal approximation theorem}
 

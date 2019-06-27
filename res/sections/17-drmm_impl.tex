@@ -492,7 +492,7 @@ The 250 topics were divided into 5 folds. Each training phase was conducted with
 
 Each test fold contains approximately (due to the query imbalance problem, explained in the previous section) $2000 \cdot 50 = 100000$ documents.
 
-At the end of each training phase, the model was re-initialized.
+At the end of each training phase, the model weights were re-initialized.
 
 \section{DRMM model configuration}
 
@@ -814,6 +814,10 @@ Since the moment that the Terrier Dirichlet LM run had a lower MAP and P@20 than
 
 \section{Final results}
 
+The following tables report the best results of my implementation of DRMM (table \ref{tab:myres}) compared to the original results achieved by Guo et al. \cite{drmm} (table \ref{tab:originalres}).
+
+Each result shown (w.r.t. the metrics used in the original paper - MAP, nDCG\@20 and P\@20) is the average of the five-fold evaluation values.
+
 \begin{table}[H]
 \centering
 \begin{tabular}{c|ccccc}
@@ -826,6 +830,7 @@ DRMM NHxIDF & 0.15 & 0.226 & 0.255 \\
 DRMM LCHxIDF & 0.214 & 0.318 & 0.378 \\ \hline
 \end{tabular}
 \caption{Summary of my results}
+\label{tab:myres}
 \end{table}
 
 Compared to the original results:
@@ -842,6 +847,7 @@ DRMM NHxIDF & 0.187 & 0.312 & 0.282 \\
 DRMM LCHxIDF & \textbf{0.279} & \textbf{0.431} & \textbf{0.382} \\ \hline
 \end{tabular}
 \caption{Summary of original results}
+\label{table:originalres}
 \end{table}
 
 \section{Software used}
