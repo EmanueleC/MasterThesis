@@ -58,9 +58,9 @@ The workflow that I followed for my implementation is reported in the following 
     \node [block, left of=decidehist, node distance = 4cm] (lch) {Normalize histograms by logarithm};
     \node [block, below of=decidehist] (drmm) {Run DRMM};
     % Draw edges
-    \path [line] (swr) -- (inquery);
-    \path [line] (st) -- (krovetz);
-    \path [line] (emb) -- (w2v);
+    \draw [cm dotted,line width=.2mm,step=.5] (swr) -- (inquery);
+    \draw [cm dotted,line width=.2mm,step=.5] (st) -- (krovetz);
+    \draw [cm dotted,line width=.2mm,step=.5] (emb) -- (w2v);
     \path [line] (pre) -- (swr);
     \path [line] (swr) -- (st);
     \path [line] (st) -- (emb);
@@ -78,6 +78,27 @@ The workflow that I followed for my implementation is reported in the following 
 \end{tikzpicture}
 \end{adjustbox}
 
+The time required for each of the previous steps is reported in the following table:
+
+\begin{table}[h!]
+\centering
+ \begin{tabular}{cc} 
+ \hline
+ Process & Time (mm:ss) \\
+ \hline
+ Tokenization/data cleaning & 35:13 \\
+ Stopwords removal & 01:31 \\
+ Stemming & 01:05 \\
+ Word embeddings generation & 11:25 \\
+ Idf computation & 00:50 \\
+ Histograms computation and saving & 03:07 \\
+ Running 5-fold cross validation \\
+ \hline
+ \end{tabular}
+ \caption{Computing time required on a pc with the following specifications: 31GiB System memory, processor: Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz, graphic card: NVIDIA Quadro M4000}
+ \label{table:timeit}
+\end{table}
+
 \subsection{Experimental collection}
 
 The goal of the TREC Robust track (\cite{rob04}) is to improve the consistency of retrieval
@@ -89,20 +110,15 @@ The document collection for the Robust track is the set of documents from both T
 
 There are 2 formats, depending on the type of document (pure text or HTML).\\
 
-\textbf{<DOC>}
-
-\textbf{<DOCNO>} document\_number \textbf{</DOCNO>}
-
-Here there could be tags like Title, Author, Profile, Headline, Date,
-Page\dots
- 
-\textbf{<TEXT>} (plain text or HTML format)
-
-Document text
- 
-\textbf{</TEXT>}
-
-\textbf{</DOC>}\\
+\begin{lstlisting}
+<DOC>
+	<DOCNO> document_number </DOCNO>
+	Here there could be tags like Title, Author, Profile, Headline, Date, Page...
+	<TEXT> (plain text or HTML format)
+		Document text
+	</TEXT>
+</DOC>
+\end{lstlisting}
 
 \textbf{Topics}\\
 
@@ -112,25 +128,16 @@ The topics are formatted using a very simple SGML (Standard Generalized Markup L
 
 An example taken from Robust04:\\
 
-\textbf{<top>}
+\lstset{language=XML,basicstyle=\ttfamily,breaklines=true}
 
-\textbf{<num>} Number: 301
-
-\textbf{<title>} International Organized Crime
-
-\textbf{<desc>} Description: 
-Identify organizations that participate in international criminal activity,
-the activity, and, if possible, collaborating organizations and the countries
-involved.
-
-\textbf{<narr>} Narrative:
-A relevant document must as a minimum identify the organization and the type of
-illegal activity (e.g., Columbian cartel exporting cocaine).
-
-Vague references to international drug trade without identification of the
-organization(s) involved would not be relevant.
-
-\textbf{</top>}\\
+\begin{lstlisting}
+<top>
+	<num> Number: 301
+	<title> International Organized Crime
+	<desc> Description: Identify organizations that participate in international criminal activity, the activity, and, if possible, collaborating organizations and the countries involved.
+	<narr> Narrative: A relevant document must as a minimum identify the organization and the type of illegal activity (e.g., Columbian cartel exporting cocaine). Vague references to international drug trade without identification of the organization(s) involved would not be relevant.
+</top>
+\end{lstlisting}
 
 \textbf{Relevance Judgements}\\
 

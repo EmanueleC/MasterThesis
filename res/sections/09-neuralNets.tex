@@ -68,8 +68,7 @@ For instance, one pretty common loss function is the \textbf{mean squared error}
 
 If the error function is differentiable, a technique generally used to minimize it is \textbf{gradient descent}. The aim is to find $\mathcal{W}^*$ such that $\mathcal{W}^* = \arg \min_{\mathcal{W}} E(\mathcal{W}| \mathcal{X})$.
 
-The gradient descent algorithm iteratively (over a fixed number of \textit{training epochs})
-updates weights using the following update equation:
+The gradient descent algorithm iteratively (over a fixed number of \textit{training epochs}) updates weights using the following update equation:
 
 \begin{equation}
 \tag{gradient descent}
@@ -77,6 +76,8 @@ w_{j, t+1} = w_{j,t} - \eta_t \cdot \frac{ \partial \mathcal{L}}{\partial w_j} \
 \end{equation}
 
 where $t$ is the epoch number and $\eta_t$ is a learning rate that typically declines with t.
+
+In order to evaluate a neural network performance, the dataset available is usually split into two parts: training and testing (e.g. 50-50\%). A fraction of the training part is then used as validation set to evaluate the network without updating its parameters. This is useful in order to avoid overfitting (described in the following).
 
 When samples from the training set are selected randomly, a variant of gradient descent is used, called \textit{stochastic} (or ``on-line'') gradient descent.
 
@@ -114,21 +115,20 @@ Sigmoid is the continuous, differentiable version of thresholding and thus, grad
 
 Another nonlinear function that can be used is the hyperbolic tangent function, \textit{tanh}, which ranges from $-1$ to $+1$, instead of $0$ to $+1$ (used in \ref{chap:drmm}).
 
+Because of the nonlinearity, such error function has many minima and gradient descent converges to the nearest minimum. To be able to assess expected  error,  the  same  network  is  trained  a  number  of  times  starting from different initial weight values, and the average of the validation error is computed.
+
 \subsection{Complexity}
 
 A MLP with $d$ input units, $H$ hidden units, and $K$ outputs has $H \cdot (d+1)$ weights in the first layer and $K \cdot (H+1)$ weights in the last layer (including the bias term).
 
-Let $e$ be the number of training epochs for the MLP. Then, $H$ and $e$ are two free parameters (in this simplified setting).
+Let $e$ be the number of training epochs for the MLP. Then, $H$ and $e$ are two free parameters (in this simplified setting) - also known as hyper parameters (but there can be others, e.g. mini batches size).
 
-The tuning of these parameters may lead to overcomplex model, which tend to memorizes the noise in the training set and do not generalize to the test set.
+The tuning of these parameters is aim to minimize the generalization error (i.e. the error on the test set).
+A simple model with abundant data can generalize well, while a complex model with fewer examples typically cannot, as it tend to overfit.
 
-This could happen when the number of hidden units is large and the generalization accuracy deteriorates.
-
-A similar behavior occurs when training is continued  too long: the error on the training set decreases, but the  error on  the  validation set  starts to  increase beyond  a  certain point.
-
-This problem is known as \textit{overfitting} and can be alleviated by \textit{stopping early} the learning process.
-
-Because of the nonlinearity, the error function has many minima and gradient descent converges to the nearest minimum. To be able to assess expected  error,  the  same  network  is  trained  a  number  of  times  starting from different initial weight values, and the average of the validation error is computed.
+A similar behavior occurs when training is continued  too long: the training error decreases, but the generalization error starts to increase beyond a certain point. This problem can be alleviated by \textit{stopping early} the learning process.
+\todo{riportare figura?}
+There are many factors govern whether a model will generalize well and some of them are: the number of tunable parameter; the values taken by the parameters and the number of training examples.
 
 \subsection{Overfitting / Underfitting problem and regularization}
 
@@ -149,8 +149,6 @@ In order to achieve this result, \textit{regularization} is often used. It is a 
  \item \textbf{Dropout}: randomly set some activation to zero. This forces the network to not rely on any particular node, and encourages it to explore different patterns on input data.
  \item \textbf{Early stopping}: stops the training before it overfits the data by monitoring a given metric (e.g. validation loss).
 \end{itemize}
-
-To monitor a neural network performance, the dataset available is usually split into two parts: training and testing (e.g. 50-50\%). A fraction of the training part is then used as validation set to evaluate the network without updating its parameters. This is useful in order to avoid overfitting.
 
 When the dataset available is too small, it can be exploited through k-fold cross validation so that each example in it is used both for training and validation and exactly once for validation.
 
