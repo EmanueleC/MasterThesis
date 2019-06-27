@@ -466,16 +466,9 @@ I chose to use the retrieval results which performance were closer to the origin
 
 As Guo pointed out in an issue in MatchZoo \footnote{\url{https://github.com/NTMC-Community/MatchZoo/issues/604}}, on Robust04 dataset there is a data imbalance problem, in fact the number of labelled documents for each topic is significantly different from one another.
 In this way, the model could be dominated by a specific topic.
-Figures \ref{fig:queries_frequencies_ql} and \ref{fig:queries_frequencies_bm} shows the (logarithmically scaled) distribution of documents retrieved per topic.
-It can be noticed that there is also a different distribution of positive and negative examples.
+Figure \ref{fig:queries_frequencies_bm} shows the (logarithmically scaled) distribution of documents retrieved by Bm25 per topic. It can be noticed that there is also a different distribution of positive and negative examples.
 For instance, QL algorithm, on average, retrieves only 3.68\% of positive samples for each topic (with some topics with 0 positive samples - e.g. topic 672) while Bm25 retrieves on average 3.70\% positive samples per topic.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.7\textwidth]{queries_frequenciesQL.png}
-  \caption{Queries imbalance problem - Dirichlet LM algorithm}
-  \label{fig:queries_frequencies_ql}
-\end{figure}
+Since the moment that the distributions relative to the runs obtained with these two algorithms are very similar, just the one relative to Bm25 is shown.
 
 \begin{figure}[H]
   \centering
@@ -540,9 +533,9 @@ In order to evaluate the model under different configurations (to obtain possibl
 \subsection{Term gating with IDF}
 \label{ssec:tgidf}
 
-The following tables report the results of DRMM (with the three histograms generation modalities and IDF weighting) on the stemmed collection, without stopwords.
+The following tables report the results of my implementation of DRMM. Each set of tables was obtained w.r.t. one of the three histograms modalities (ch, nh, lch). Then, each table in a set show results for different number of (balanced) positive (relevant)/negative (non relevant) samples for each query used for training.
 
-The test set refer to the top 2000 pre-ranked results from Terrier Bm25.
+The run to re-rank is given by the pre-ranked results from Terrier Bm25.
 
 \begin{adjustbox}{center, tabular=ccc, caption={DRMM runs (count-based histograms), IDF weighting, stemmed with stopwords removal}, nofloat=table}
 \centering
@@ -668,6 +661,8 @@ MAP & P@20 & nDCG@20 \\ \hline
 \end{adjustbox}
 
 A trivial consideration on the previous tests is that (in all case) increasing the number of (balanced) samples (i.e. increasing the training set size), leads to better performances.
+However, when using more than 100 samples of positive/negative documents per query, the performance of my implementation started to decrease, so I stopped the experiments at that number.
+I also tried unbalanced number of positive/negative documents per query (using repetitions of the smaller fraction of sample), but the results were not as good as the ones reported.
 
 \subsection{Term gating with term vector (TV)}
 

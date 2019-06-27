@@ -128,8 +128,6 @@ A similar behavior occurs when training is continued  too long: the error on the
 
 This problem is known as \textit{overfitting} and can be alleviated by \textit{stopping early} the learning process.
 
-Tuning of parameters is determined through \textit{cross-validation}, which involves testing the network’s performance on validation data unseen during training.
-
 Because of the nonlinearity, the error function has many minima and gradient descent converges to the nearest minimum. To be able to assess expected  error,  the  same  network  is  trained  a  number  of  times  starting from different initial weight values, and the average of the validation error is computed.
 
 \subsection{Overfitting / Underfitting problem and regularization}
@@ -148,12 +146,18 @@ The ideal fit should be the purpose of a neural network, so that it does not und
 In order to achieve this result, \textit{regularization} is often used. It is a set of techniques that constraint the optimization problem to discourage complex models. Some examples:
 
 \begin{itemize}
- \item \textbf{Dropout}: randomly set some activation to zero. This forces the
-network to not rely on any particular node, and encourages it to explore
-different patterns on input data.
- \item \textbf{Early stopping}: stops the training before it overfits the data
-by monitoring a given metric (e.g. validation loss).
+ \item \textbf{Dropout}: randomly set some activation to zero. This forces the network to not rely on any particular node, and encourages it to explore different patterns on input data.
+ \item \textbf{Early stopping}: stops the training before it overfits the data by monitoring a given metric (e.g. validation loss).
 \end{itemize}
+
+To monitor a neural network performance, the dataset available is usually split into two parts: training and testing (e.g. 50-50\%). A fraction of the training part is then used as validation set to evaluate the network without updating its parameters. This is useful in order to avoid overfitting.
+
+When the dataset available is too small, it can be exploited through k-fold cross validation so that each example in it is used both for training and validation and exactly once for validation.
+
+With K-fold cross-validation, the dataset is partitioned into k parts. Then, k-1 parts are used as training set and the remaining part is used as validation set. This process is repeated k times so that each part is used exactly once as validation set.
+The k results can then be averaged to produce a single estimation.
+
+It is often used for parameters tuning by doing it for several possible values of a set of parameters.
 
 \subsection{Universal approximation theorem}
 
