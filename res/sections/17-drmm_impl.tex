@@ -298,6 +298,8 @@ Minimum word count (words with frequency < 10 are not considered) & 10 \\ \hline
 \label{table:w2v_config}
 \end{table}
 
+Each document in the corpus was given in input to Word2Vec as a string. Alternatively, a document could have been given in input as a list of sentences. Later, I will show results for both choices.
+
 If a word is present only in a query and not in the corpus, that word is considered out-of-vocabulary.
 
 \subsection{A quick inspection of word embeddings}
@@ -778,6 +780,51 @@ MAP & P@20 & nDCG@20 \\ \hline
 \end{adjustbox}
 
 These results appear to confirm that, in this case (100-100 pos/neg + IDF weighting), using word embeddings trained on the test collection (see the third table of \ref{tab:chsamp}, \ref{tab:nhsamp} and \ref{tab:lchsamp}) is preferable over using off-shelf embeddings (\ref{tab:gloveres}).
+
+Additionaly, I tested my implementation with a different way to generate word embeddings, passing documents splitted at sentence-level to Word2Vec. The results were as follows:
+
+\begin{adjustbox}{center, tabular=ccc, caption={DRMM runs, 100-100 pos/neg IDF weighting, stemmed with stopwords removal, second version of word embeddings}, nofloat=table}
+\centering
+\begin{tabular}{c|ccc}
+\hline
+\multicolumn{4}{c}{CH histograms} \\ \hline
+fold & MAP & P@20 & nDCG@20 \\ \hline
+1 & 0.166 & 0.266 & 0.299 \\
+2 & 0.137 & 0.237 & 0.275 \\
+3 & 0.152 & 0.22 & 0.253 \\
+4 & 0.144 & 0.25 & 0.294 \\
+5 & 0.192 & 0.277 & 0.352 \\ \hline
+avg. & \textbf{0.158} & \textbf{0.25} & \textbf{0.294} \\
+\hline
+\end{tabular} &
+\begin{tabular}{ccc}
+\hline
+\multicolumn{3}{c}{NH histograms} \\ \hline
+MAP & P@20 & nDCG@20 \\ \hline
+0.157 & 0.246 & 0.264 \\
+0.138 & 0.213 & 0.253 \\
+0.149 & 0.208 & 0.222 \\
+0.135 & 0.214 & 0.24 \\
+0.177 & 0.252 & 0.307 \\ \hline
+\textbf{0.151} & \textbf{0.226} & \textbf{0.257} \\
+\hline
+\end{tabular} &
+\begin{tabular}{ccc}
+\hline
+\multicolumn{3}{c}{LCH histograms} \\ \hline
+MAP & P@20 & nDCG@20 \\ \hline
+0.218 & 0.347 & 0.396 \\
+0.206 & 0.288 & 0.375 \\
+0.205 & 0.292 & 0.332\\
+0.18 & 0.316 & 0.356 \\
+0.235 & 0.33 & 0.409 \\ \hline
+\textbf{0.208} & \textbf{0.314} & \textbf{0.373} \\
+\hline
+\end{tabular}
+\label{tab:sentw2v}
+\end{adjustbox}
+
+These embeddings show slightly better performance on CH and NH histograms, but worse on LCH histograms.
 
 \subsection{Different pre-ranking results}
 
