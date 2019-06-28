@@ -39,7 +39,7 @@ Despite a few hyperparameters of the model were given in \cite{drmm}, I had to (
 
 The workflow that I followed for my implementation is reported in the following picture:
 
-\begin{adjustbox}{width=6.5in,totalheight=5in}
+\begin{adjustbox}{width=6.5in,totalheight=5in, center}
 \begin{tikzpicture}[node distance = 3.7cm, auto]
     % Place nodes
     \node [block] (pre) {Tokenization};
@@ -92,10 +92,10 @@ The time required for each of the previous steps is reported in the following ta
  Word embeddings generation & 11:25 \\
  Idf computation & 00:50 \\
  Histograms computation and saving & 03:07 \\
- Running 5-fold cross validation \\
+ Running 5-fold cross validation & $\sim$ 44:00 (w/o considering early stopping) \\
  \hline
  \end{tabular}
- \caption{Computing time required on a pc with the following specifications: 31GiB System memory, processor: Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz, graphic card: NVIDIA Quadro M4000}
+ \caption{Computing time required on a pc with the following specifications: 31GiB of system memory, processor: Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz, graphic card: NVIDIA Quadro M4000}
  \label{table:timeit}
 \end{table}
 
@@ -260,7 +260,6 @@ Docs words & x & x & 77750991 \\ \hline
 Queries words & x & x & 2063 \\ \hline
 \end{tabular}
 \caption{Data words count}
-\label{table:words count}
 \end{table}
 
 Guo et al. reported their statistics on the original paper for the test collection, after preprocessing:
@@ -274,7 +273,6 @@ Document Count & 0.5M & 523857 \\
 Query Count words & 250 & 250 \\ \hline
 \end{tabular}
 \caption{Data words count}
-\label{table:words count}
 \end{table}
 
 My vocabulary has less words than theirs because I performed stopwords removal on the full corpus of documents, not just on queries.
@@ -306,7 +304,7 @@ If a word is present only in a query and not in the corpus, that word is conside
 
 The vocabulary of Word2Vec model contains less words than the vocabulary of the collection, because all words that occurs less than 10 times are removed.
 
-At this point, in the pipeline that builds the input to DRMM, the ``words out-of-vocabulary'' problem originates. That is, some words present in the collection have not a corresponding embedding.
+At this point, in the pipeline that builds the input to DRMM, the ``words out-of-vocabulary'' problem originates. That is, some words present in the collection have not a corresponding embedding. DRMM alleviate this problem by allowing exact matching between these words left out.
 
 \begin{table}[H]
 \centering
@@ -319,7 +317,9 @@ x & x & 509731 & 110158 \\
 \caption{Word counts}
 \end{table}
 
-I report a simple look up of words similar to the word ``night'', with the respective cosine similarity, for all cases (Unstemmed + no stopwords removal; unstemmed + stopwords removal; stemmed + stopwords removal)
+In the following, I report a simple look up of the top 6 most similar words for ``night'', with the respective cosine similarity, for all cases (unstemmed + no stopwords removal; unstemmed + stopwords removal; stemmed + stopwords removal).
+
+Cosine similarity function (equation \ref{eq:cosine}) measures the cosine of the angle between two vectors and returns value in the interval $[-1, 1]$. If two vectors are parallel/orthogonal, their cosine similarity is +1/0. When they are opposite, their cosine similarity is -1.
 
 \begin{table}[H]
 \centering
@@ -363,24 +363,39 @@ sunday & 0.607 \\
 \caption{Lookup word: ``night''; stemmed corpus with stopwords removal}
 \end{table}
 
-I also tried to inspect the IN-OUT and OUT-IN embeddings (cited in \cite{Mitra2016ADE}) of the trained Word2Vec model. The results were as follows:
+It can be noticed that, when stopwords removal and stemming are applied, the order of the results changes. Moreover, words as ``evening'', ``morning'', ``midnight'' and ``sunday'' get a closer (textual) position to the word ``night'' and their cosine similarity increases.
+
+I also inspect the IN-OUT and OUT-IN embeddings (cited in \cite{Mitra2016ADE}) of the trained Word2Vec model.
+
+As previously mentioned, Word2Vec model contains two separate embedding spaces (IN and OUT)
+whose interactions capture additional distributional semantics of words
+that are not observable by considering them separately.
+
+The results were as follows:
 
 \begin{table}[H]
 \centering
-\begin{tabular}{cc}
+\begin{tabular}{c}
 \hline
-\multicolumn{2}{c}{\textbf{night}} \\
-OUT-IN & IN-OUT \\ \hline
-gatoil & sleepless \\
-usepaoppt & night \\
-olefine & monday \\
-irlo & saturday \\
-chokepoint & sunday \\
+\textbf{night} \\ \hline
+IN-OUT \\ \hline
+sleepless \\
+night \\
+monday \\
+saturday \\
+sunday \\
 \hline
 \end{tabular}
-\caption{Lookup word: ``night''; stemmed corpus with stopwords removal}
+\caption{Lookup word: ``night'' (IN-OUT embeddings cosine similarities); stemmed corpus with stopwords removal}
 \label{tab:embsim2}
 \end{table}
+
+Words that appear in similar contexts get pushed closer to each other
+within the IN and the OUT embedding spaces (typical similarity), while
+IN-OUT cosine similarities are higher for words that co-occur often in
+the training corpus (topically similar).
+
+This is the reason why the results of the table \ref{tab:embsim2} are different from the previous ones.
 
 \subsection{Word embeddings matching signals analysis}
 
@@ -406,7 +421,7 @@ Next, I give some example of histograms, with respect to the title of topic 301 
 Both document and query were stemmed and without stopwords. For each query term, there is a row of 30 bins (colored different, according to their frequency). Each bin contains a specific similarity range, for
 example the ones at the middle (0-($\sim$) 0.067) indicate how many words in the document are orthogonal to the query term; the ones on the right (left) indicate how many words are closer (``opposite'') to the query term.
 
-Note that word2vec does not capture antonymy, so opposite vector embeddings are \textbf{not} semantically opposite, which is counter-intuitive.
+Note that Word2Vec does not capture antonymy, so opposite vector embeddings are \textbf{not} semantically opposite, which is counter-intuitive.
 
 \begin{figure}[H]
   \centering
@@ -847,7 +862,7 @@ DRMM NHxIDF & 0.187 & 0.312 & 0.282 \\
 DRMM LCHxIDF & \textbf{0.279} & \textbf{0.431} & \textbf{0.382} \\ \hline
 \end{tabular}
 \caption{Summary of original results}
-\label{table:originalres}
+\label{tab:originalres}
 \end{table}
 
 \section{Software used}

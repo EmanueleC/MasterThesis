@@ -127,7 +127,7 @@ The \textbf{index creation} component takes the output of the text transformatio
 
 Inverted indexes are by far the most common form of index used by search engines. For each term indexed, an inverted index contains a list of documents called \textit{posting list}.
 
-Elements of this list are called \textit{posting} and typically they are the documents in which the index term appears.
+Elements of this list are called \textit{posting} and typically they are the documents in which the index term appears (see picture \ref{fig:inverted_index}).
 
 Given the large number of documents in many search applications, index creation must be efficient, both in terms of time and space.
 
@@ -135,7 +135,7 @@ Given the large number of documents in many search applications, index creation 
   \centering
   \includegraphics[width=0.9\textwidth]{inverted_index.png}
   \caption{An example of inverted index where postings are based on counting term occurrences in the document list}
-  \label{fig:indexing}
+  \label{fig:inverted_index}
 \end{figure}
 
 During index creation, other information may be collected such as \textbf{document statistics}, which may vary upon what is needed by the ranking model used by the search engine.
@@ -213,7 +213,6 @@ where $\norm{\vec{v}}_2$ is the SRSS (euclidean norm - square root of the sum of
 
 The cosine correlation measures the cosine of the angle between the query and the document vectors.
 
-\todo{citare qualcosa per tf-idf}
 A popular weighting scheme applied in the vector space model is \textit{tf-idf} \cite{croftIR}: tf stands for \textit{term frequency}, the frequency of index term occurrences in a document while idf stands for \textit{inverse document frequency}, the reciprocal of the frequency of index term occurrences over the entire collection of documents.
 
 Idf weights are useful because they can give information about which terms are frequent or rare over the entire collection of documents.

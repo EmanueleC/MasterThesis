@@ -126,9 +126,16 @@ Let $e$ be the number of training epochs for the MLP. Then, $H$ and $e$ are two 
 The tuning of these parameters aim to minimize the generalization error (i.e. the error on the test set).
 A simple model with abundant data can generalize well, while a complex model with fewer examples typically cannot, as it tend to overfit.
 
-A similar behavior occurs when training is continued  too long: the training error decreases, but the generalization error starts to increase beyond a certain point. This problem can be alleviated by \textit{stopping early} the learning process.
-\todo{riportare figura?}
+A similar behavior occurs when training is continued for too long: the training error decreases, but the generalization error starts to increase beyond a certain point. This problem can be alleviated by \textit{stopping early} the learning process.
+
 There are many factors that influence whether a model will generalize well and some of them are: the number of tunable parameter; the values taken by the parameters and the number of training examples.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{generalization_loss.png}
+  \caption{Influence of a model complexity on underfitting and overfitting, source: \url{https://www.d2l.ai/chapter_multilayer-perceptrons/underfit-overfit.html}}
+  \label{fig:model_compl}
+\end{figure}
 
 \subsection{Overfitting / Underfitting problem and regularization}
 
@@ -136,9 +143,9 @@ There are many factors that influence whether a model will generalize well and s
 
 The ideal fit should be the purpose of a neural network, so that it does not underfit neither overfit (see figure \ref{fig:overfitting}).
 
-\begin{figure}
+\begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth]{overfitting.png}
+  \includegraphics[width=1.0\textwidth]{overfitting.png}
   \caption{Underfitting, ideal fit and overfitting, source \url{pingax.com/wp-content/uploads/2014/05/underfitting-overfitting.png}}
   \label{fig:overfitting}
 \end{figure}
@@ -167,7 +174,6 @@ There are some caveats in this statement to consider: the number of hidden units
   \centering
   \includegraphics[width=0.9\textwidth]{func_approx.png}
   \caption{Training and test data problem}
-  \label{fig:hist_ex}
 \end{figure}
 
 Neural networks are excellent function approximations, but there is a huge

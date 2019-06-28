@@ -23,7 +23,6 @@ These two categories are reflected in two architectures, reported in figure \ref
   \label{fig:neur2arch}
 \end{figure}
 
-\todo{Qui ho ampliato e spostato una parte che prima era alla fine}
 Alongside with these two approaches, Onal, Zhang et al. in \cite{neurIRearly} described two categories in which neural techniques and distributed representations can be used together to build a model for an IR task: \textit{aggregate} and \textit{learn}.
 
 In the first category, \textit{aggregate}, the models rely on pre-trained word representations as external  resources in order to build or extend relevance matching functions.
@@ -66,7 +65,6 @@ The reliance on a first stage ranker creates a dual problem: first, the interact
 Moreover, Mitra et al. in \cite{Mitra2016ADE} demonstrate that good performances on re-ranking tasks may not be indicative how a neural retrieval model would perform if the retrieval involves larger document collections. They found that, in that case, their embeddings-based approach (DESM) was prone to false positives, retrieving documents that are only loosely related to the query.
 
 To counteract this fact, they defined a ``mixture'' model - a linear combination of a neural retrieval model and a traditional retrieval model (DESM + Bm25) - and evaluated it in a non-telescoping setting. The mixture model provided improvements over the performance of DESM alone.
-\todo{fino a qui}
 
 \subsection{A brief history of Neural IR}
 \label{ssec:historyNeuIR}
@@ -81,7 +79,6 @@ Moreover, in 2014, the first two Neural IR papers also appeared at SIGIR.
 
 In 2016, work on Neural IR continued to accelerate in quantity of work, sophistication of methods, and practical effectiveness (e.g. \cite{drmm} - the work studied and reproduced in this thesis). SIGIR also featured its first workshop on the subject \footnote{\url{https://www.microsoft.com/en-us/research/event/neuir2016}}.
 
-\todo{aggiunto modello SNRM}
 With respect to the test collection used in the experimental section (Robust04 \cite{rob04}) (\ref{sec:leaderboadrobust04}), I explored a neural model that demonstrate state-of-the-art performances, published after DRMM.
 
 In 2018, Zamani et al. proposed in \cite{stdlnneur} a \textit{standalone} neural ranking model (SNRM) that addresses the inefficiency problems of neural models by enforcing and rewarding sparsity in the representation learning, creating a latent representation that aims to capture meaningful semantic relations while still matching documents.
@@ -347,7 +344,6 @@ So, the loss function is:
 \mathcal{L} = - u_t + \sum_i^V e^{u_i}
 \end{equation}
 
-\todo{aggiunto negative sampling}
 The softmax function requires that the probability $e^{u_t}$ is normalized by summing over all the vocabulary, which is an expensive computation to do in case of large corpus. Thus, to make the model scalable, the authors proposed a sightly altered \textbf{negative sampling} objective:
 
 \begin{equation}
@@ -383,11 +379,9 @@ p(w_{c, j} | w_t) = \frac{exp(u_{c, j})}{\sum_{j' = 1}^V exp(u_{c,j'})}
   \label{fig:skip-gram}
 \end{figure}
 
-\todo{aggiunto}
 Word2Vec model's output consists of two different weight matrices: $W$ (IN-embeddings) and $W'$ (OUT-embeddings). Generally, only $W$ is used and $W'$ is discarded after training.
 
 \subsection{On the importance of word embeddings}
-\todo{aggiunta sezione}
 The usage of word embeddings comes with its own challenges and decision problems.
 
 For instance, some decisions to be considered are the choice of the possible algorithms: Word2Vec (cbow or skip-gram) \cite{w2v} or GloVe the choice of hyper-parameters (e.g., dimensionality of embedding space, window size, etc.) and the choice of training data/corpora.
