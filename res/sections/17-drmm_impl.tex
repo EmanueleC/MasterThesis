@@ -1,11 +1,12 @@
 \newpage
 \chapter{An implementation of DRMM}
 
-The implementation and evaluation of this Neural IR system were divided in 4 macro tasks:
+The implementation and evaluation of this Neural IR system were divided in five macro tasks:
 
 \begin{itemize}
 \item preprocessing and analysis of dataset (Robust04 \cite{rob04});
 \item implementation of the model;
+\item replication;
 \item evaluation of results;
 \item discussion.
 \end{itemize}
@@ -367,35 +368,29 @@ sunday & 0.607 \\
 
 It can be noticed that, when stopwords removal and stemming are applied, the order of the results changes. Moreover, words as ``evening'', ``morning'', ``midnight'' and ``sunday'' get a closer (textual) position to the word ``night'' and their cosine similarity increases.
 
-I also inspect the IN-OUT and OUT-IN embeddings (cited in \cite{Mitra2016ADE}) of the trained Word2Vec model.
+I also inspect the in-out embeddings (cited in \cite{Mitra2016ADE}) of the trained Word2Vec model.
 
-As previously mentioned, Word2Vec model contains two separate embedding spaces (IN and OUT)
-whose interactions capture additional distributional semantics of words
-that are not observable by considering them separately.
+As previously mentioned, Word2Vec model contains two separate embedding spaces (in and out) whose interactions capture additional distributional semantics of words that are not observable by considering them separately.
 
 The results were as follows:
 
 \begin{table}[H]
 \centering
-\begin{tabular}{c}
+\begin{tabular}{cc}
 \hline
-\textbf{night} \\ \hline
-IN-OUT \\ \hline
-sleepless \\
-night \\
-monday \\
-saturday \\
-sunday \\
+\textbf{night} & \textbf{Cosine similarity} \\ \hline
+sleepless & 0.102 \\
+saturday & 0.096 \\
+sunday & 0.089 \\
+night & 0.085 \\
+monday & 0.082\\
 \hline
 \end{tabular}
-\caption{Lookup word: ``night'' (IN-OUT embeddings cosine similarities); stemmed corpus with stopwords removal}
+\caption{Lookup word: ``night'' (in embedding space for query, out embedding space for corpus); stemmed corpus with stopwords removal}
 \label{tab:embsim2}
 \end{table}
 
-Words that appear in similar contexts get pushed closer to each other
-within the IN and the OUT embedding spaces (typical similarity), while
-IN-OUT cosine similarities are higher for words that co-occur often in
-the training corpus (topically similar).
+Words that appear in similar contexts get pushed closer to each other within the in and the out embedding spaces (in-in/out-out) (typical similarity), while in-out (out-in) cosine similarities are higher for words that co-occur often in the training corpus (topically similar). In fact, in table \ref{tab:embsim2} there are some words that do not appear in the previous tables (e.g. ``sleepless'', ``night'', ``monday'').
 
 This is the reason why the results of the table \ref{tab:embsim2} are different from the previous ones.
 
@@ -781,7 +776,7 @@ MAP & P@20 & nDCG@20 \\ \hline
 
 These results appear to confirm that, in this case (100-100 pos/neg + IDF weighting), using word embeddings trained on the test collection (see the third table of \ref{tab:chsamp}, \ref{tab:nhsamp} and \ref{tab:lchsamp}) is preferable over using off-shelf embeddings (\ref{tab:gloveres}).
 
-Additionaly, I tested my implementation with a different way to generate word embeddings, passing documents splitted at sentence-level to Word2Vec. The results were as follows:
+Additionally, I tested my implementation with a different way to generate word embeddings, passing documents split at sentence-level to Word2Vec. The results were as follows:
 
 \begin{adjustbox}{center, tabular=ccc, caption={DRMM runs, 100-100 pos/neg IDF weighting, stemmed with stopwords removal, second version of word embeddings}, nofloat=table}
 \centering
@@ -874,6 +869,32 @@ MAP & P@20 & nDCG@20 \\ \hline
 
 Since the moment that the Terrier Dirichlet LM run had a lower MAP and P@20 than the Bm25 one, these results are lower than the previous ones. This confirm that a Neural IR system that operate in a re-ranking strategy is very dependent on the previous retrieval system(s).
 
+\section{Replication}
+
+A part of the original code was made publicly available on GitHub (\url{https://github.com/faneshion/DRMM}).
+
+The code is written in C++ and contains DRMM with LCH-IDF configuration. All other parameters were the same as cited in the paper.
+
+In the following table, I compared the results that I obtained using the original implementation and combinations of authors data and my data (corpus and word embeddings):
+
+\begin{adjustbox}{center, caption={Replication of the original experiments (extended with my data)}, nofloat=table}
+\centering
+\begin{tabular}{p{5cm}p{1.7cm}p{2cm}p{1.3cm}p{1.3cm}p{1.3cm}} 
+ \hline
+ & Document count & Vocabulary size & Average MAP & Average nDCG\@20 & Average P\@20 \\
+ \hline
+ Original processed corpus, original embeddings & 521855 & 502331 & 0.278 & 0.434 & 0.383 \\ 
+ Original processed corpus, my embeddings & 521855 & 502331 & 0.253 & 0.417 & 0.371 \\
+ My processed corpus, original embeddings & 523857 & 469362 & 0.247 & 0.409 & 0.361 \\
+ My processed corpus, my embeddings & 523857 & 469362 & 0.247 & 0.410 & 0.361 \\
+ \hline
+\end{tabular}
+\end{adjustbox}
+
+The original implementation of DRMM returns the expected results. However, the size of vocabulary declared in the paper (0.6M) does not match the one that I obtained.
+
+When using my processed corpus, the vocabulary size decreases but the documents count slightly increases. All of the metrics descreases as well, wheter I use my embeddings or the originals. Thus, the corpus used seems to influence the performances more than the embeddings.
+
 \section{Final results}
 
 The following tables report the best results of my implementation of DRMM (table \ref{tab:myres}) compared to the original results achieved by Guo et al. \cite{drmm} (table \ref{tab:originalres}).
@@ -906,7 +927,7 @@ DRMM NHxTV & 0.160 & 0.293 & 0.258 \\
 DRMM LCHxTV & 0.268 & 0.423 & 0.381 \\
 DRMM CHxIDF & 0.259 & 0.412 & 0.362 \\
 DRMM NHxIDF & 0.187 & 0.312 & 0.282 \\
-DRMM LCHxIDF & \textbf{0.279} & \textbf{0.431} & \textbf{0.382} \\ \hline
+DRMM LCHxIDF & 0.279 & 0.431 & 0.382 \\ \hline
 \end{tabular}
 \caption{Summary of original results}
 \label{tab:originalres}

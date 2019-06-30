@@ -394,9 +394,9 @@ In the same review study, there are discording results on the impact of training
 
 Regarding the handling of OOV terms, some solutions proposed were to ignore the OOV terms or to randomly initialize their embeddings.
 
-Mitra et al. in \cite{Mitra2016ADE} explored the possibility to combine both IN-embeddings and OUT-embeddings of Word2Vec (usually discharged after training) in order to explore different topic-based relationship between a query and its relevant documents.
+Mitra et al. in \cite{Mitra2016ADE} explored the possibility to combine both in-embeddings and out-embeddings of Word2Vec (usually discharged after training) in order to explore different topic-based relationship between a query and its relevant documents.
 
-For instance, table \ref{tab:embsim} shows that IN-IN and OUT-OUT cosine similarities are high for words that are similar by function or type (typical), and the IN-OUT cosine similarities are high between words that often co-occur in the same query or document (topical).
+For instance, table \ref{tab:embsim} shows that in-in and out-out cosine similarities are high for words that are similar by function or type (typical), and the in-out cosine similarities are high between words that often co-occur in the same query or document (topical).
 
 \begin{table}[H]
 \centering
@@ -404,7 +404,7 @@ For instance, table \ref{tab:embsim} shows that IN-IN and OUT-OUT cosine similar
 \begin{tabular}{ccc}
 \hline
 \multicolumn{3}{c}{\textbf{yale}} \\
-IN-IN & OUT-OUT & IN-OUT \\ \hline
+in-in & out-out & in-out \\ \hline
 yale & yale & yale \\
 harvard & uconn & faculty \\
 nyu & harvard & alumni \\
@@ -414,7 +414,7 @@ cornell & tulane & orientation \\
 \begin{tabular}{ccc}
 \hline
 \multicolumn{3}{c}{\textbf{eminem}} \\
-IN-IN & OUT-OUT & IN-OUT \\ \hline
+in-in & out-out & in-out \\ \hline
 eminem & eminem & eminem \\
 rihanna & rihanna & rap \\
 ludacris & dre & featuring \\
@@ -422,7 +422,7 @@ kanye & kanye & tracklist \\
 \hline
 \end{tabular}
 \end{tabular}
-\caption{Tables with data reported by Mitra et al. in \cite{Mitra2016ADE}. They shows nearest neighbours for the words ``yale'' and ``eminem'' according to the cosine similarity based on the IN-IN, OUT-OUT and IN-OUT embeddings. Their Word2Vec model was trained on a query corpus with a vocabulary of 2748230 words}
+\caption{Tables with data reported by Mitra et al. in \cite{Mitra2016ADE}. They shows nearest neighbours for the words ``yale'' and ``eminem'' according to the cosine similarity based on the in-in, out-out and in-out embeddings. Their Word2Vec model was trained on a query corpus with a vocabulary of 2748230 words}
 \label{tab:embsim}
 \end{table}
 

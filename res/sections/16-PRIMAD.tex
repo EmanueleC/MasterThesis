@@ -13,7 +13,9 @@ In later years, there is growing alarm about results that cannot be reproduced. 
 
 Reproducibility assumes differents meanings in different disciplines.
 
-In computer science, reproducibility often refers to the ability to reproduce computations alone (it relates exclusively to sharing documented data and code), while replication describes the redoing of whole experiments.
+In computer science, reproducibility and replicability assumes different meanings compared to other natural sciences.
+
+The American Statistical Association (ASA) gives the following definitions \cite{asa}: reproducibility often refers to the ability to reproduce computations alone (i.e. another person should be able to take the original data and the computer code used in a study and reproduce all of the numerical findings), while replication describes the repeating of an entire study, independently of the original investigator without the use of original data (but using the same method).
 
 In this sense, the experiment studied in this thesis has been both reproduced and replicated.
 
@@ -110,7 +112,7 @@ Changes applied:
 \item $R \rightarrow R'$: Same research goal
 \item $M \rightarrow M'$: Same method
 \item $I \rightarrow I'$: I reproduce the experiment firstly with one implementation already given and then I made my own implementation in Python
-\item $P \rightarrow P'$: I used Terrier for the initial retrieval, builded the model with Tensorflow, (Evaluation) Trec eval
+\item $P \rightarrow P'$: I used Terrier for the initial retrieval, built the model with Tensorflow, (Evaluation) Trec eval
 \item $D \rightarrow D'$: Same input data
 \item $A \rightarrow A'$: Emanuele Carraro
 \end{itemize}
@@ -120,7 +122,7 @@ Because most retrieval engines are relatively complex, multi-component, highly c
 Such a description should preferably cover at least the following components of the IR system:
 
 \begin{itemize}
- \item tokenisation/parsing method used: which parts of a text are tokenised, what characters are regarded as token delimiters, the nature of the tokens themselves (e.g., words, n-grams), which tokens are discarded, if any (e.g., strings consisting of numerals only), and so on.
+ \item tokenization/parsing method used: which parts of a text are tokenized, what characters are regarded as token delimiters, the nature of the tokens themselves (e.g., words, n-grams), which tokens are discarded, if any (e.g., strings consisting of numerals only), and so on.
  \item Stopword list used, if any.
  \item Stemming algorithm used, if any.
  \item Additional indexing units (e.g., phrases and named entities) identified, if any, and details of the identification method used.
@@ -177,7 +179,7 @@ Some randomness sources are the following:
 \item random initialization of layer weights - neural networks often initialized the weights of their
 layer with values sampled from a particular distribution;
 \item noisy hidden layers (e.g. dropout layers set to zero the output of random nodes);
-\item changes in ML frameworks: e.g. switching Keras backend from Thean to Tensorflow.
+\item changes in ML frameworks: e.g. switching Keras backend from Theano to Tensorflow.
 \end{itemize}
 
 Typically, to ensure reproducibility, it's a good practice to run the network many times and use statistics to summarize the performance of the model and use them for comparison. Unfortunately this may require too much time so another best practice is to use a fixed seed whenever there is randomness introduced.

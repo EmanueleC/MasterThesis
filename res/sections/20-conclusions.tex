@@ -41,7 +41,7 @@ My results indicated that when generating word embeddings on the test collection
 
 To sum up, the performance of my implementation of DRMM were influenced by three critical factors: the run to re-rank, the preprocessing steps applied and the word embeddings used.
 
-Additionaly, I observed that, even with the same pre-ranked documents, the neural IR models that Guo et al. used as comparison and DRMM returned very different results.
+Additionally, I observed that, even with the same pre-ranked documents, the neural IR models that Guo et al. used as comparison and DRMM returned very different results.
 
 For instance, DSSM achieved a MAP of 0.095, while its convolutional variant achieves 0.067. ARCI and ARCII performances were poor as well: 0.041 and 0.067 values of MAP respectively. All of these models started with a run that achieved a MAP of 0.253 with the QL algorithm.
 
@@ -57,7 +57,7 @@ I wondered what differentiates DRMM from other models I reviewed in order to jus
 
 The third property points out that DRMM does not takes into consideration position-related signals. This is somehow counter-intuitive, as many neural models that deal with text (in NLP particularly) take into account words order (e.g. LSTM, RNN). Comparisons between such models and DRMM were not mentioned, as IR and NLP have different objectives. In fact, in the original paper, DRMM was tested with a different input representation - one that considered positional signals - and its performance worsened. That indicates that ad hoc retrieval is a strength-related task rather than position-related.
 
-Although the authors succeded in beating the baseline models with DRMM, I have not find the same results. My implementation of DRMM was able in some cases to get closer to the baseline, but was not able to improve them.
+Although the authors succeeded in beating the baseline models with DRMM, I have not find the same results. My implementation of DRMM was able in some cases to get closer to the baseline, but was not able to improve them.
 
 Some of the problems that I faced during the implementation of DRMM were systematic mistakes that I made during the implementation, others may be caused by an incorrect estimation of unknown parameters or missing unknown/additional procedures applied by the authors (for instance, they did not explain how to deal with the ``query imbalance'' problem).
 
