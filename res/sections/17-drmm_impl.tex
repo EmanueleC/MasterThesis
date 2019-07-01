@@ -46,14 +46,14 @@ The workflow that I followed for my implementation is reported in the following 
     \node [block] (pre) {Tokenization};
     \node [block, right of=pre] (swr) {Stopwords removal};
     \node [block, right of=swr] (st) {Stemming};
-    \node [block, right of=st] (emb) {Word embeddings generation};
+    \node [block, right of=st] (emb) {Word\\embeddings generation};
     \node [cloud, above of=swr] (inquery) {INQUERY \\ stoplist};
     \node [cloud, above of=st] (krovetz) {Krovetz stemmer};
     \node [cloud, above of=emb] (w2v) {Word2Vec};
     \node [decision, below of=swr, node distance = 5cm] (decide) {Term gating function};
-    \node [block, below of=decide, node distance = 4cm] (idf) {Idf computation};
+    \node [block, below of=decide, node distance = 4cm] (idf) {Idf\\computation};
     \node [block, right of=decide, node distance = 7cm] (hist) {Histograms CH generation};
-    \node [block, right of=hist] (ids) {Generate positive/negative samples for training};
+    \node [block, right of=hist] (ids) {Generate positive/\\negative samples for training};
     \node [decision, below of=ids, node distance = 4.5cm] (decidehist) {Histograms modalities};
     \node [block, right of=decidehist, node distance = 4cm] (nh) {Normalize histograms by sum};
     \node [block, left of=decidehist, node distance = 4cm] (lch) {Normalize histograms by logarithm};
@@ -268,7 +268,7 @@ Guo et al. reported their statistics on the original paper for the test collecti
 \begin{table}[H]
 \centering
 \begin{tabular}{ccc}
- & Theirs & Mine \\ \hline
+ & Theirs & Mine (stopwords removal + stemming) \\ \hline
 Vocabulary & 0.6M & 509731 \\
 Document Count & 0.5M & 523857 \\
 Query Count words & 250 & 250 \\ \hline
@@ -277,6 +277,8 @@ Query Count words & 250 & 250 \\ \hline
 \end{table}
 
 My vocabulary has less words than theirs because I performed stopwords removal on the full corpus of documents, not just on queries.
+
+Moreover, the original Robust04 \cite{rob04} had 528155 documents. I report a lower number of documents because I counted just documents with a positive length: it is possible that, when I performed stopwords removal, some documents length went to 0.
 
 \subsection{Word-embeddings training with Word2Vec}
 \label{ssec:wemb}
@@ -869,11 +871,11 @@ MAP & P@20 & nDCG@20 \\ \hline
 
 Since the moment that the Terrier Dirichlet LM run had a lower MAP and P@20 than the Bm25 one, these results are lower than the previous ones. This confirm that a Neural IR system that operate in a re-ranking strategy is very dependent on the previous retrieval system(s).
 
-\section{Replication}
+\section{Reproduction of the experiment}
 
 A part of the original code was made publicly available on GitHub (\url{https://github.com/faneshion/DRMM}).
 
-The code is written in C++ and contains DRMM with LCH-IDF configuration. All other parameters were the same as cited in the paper.
+The code is written in C++ and contains DRMM with LCH-IDF configuration. All parameters were set as stated in the paper.
 
 In the following table, I compared the results that I obtained using the original implementation and combinations of authors data and my data (corpus and word embeddings):
 
@@ -885,15 +887,15 @@ In the following table, I compared the results that I obtained using the origina
  \hline
  Original processed corpus, original embeddings & 521855 & 502331 & 0.278 & 0.434 & 0.383 \\ 
  Original processed corpus, my embeddings & 521855 & 502331 & 0.253 & 0.417 & 0.371 \\
- My processed corpus, original embeddings & 523857 & 469362 & 0.247 & 0.409 & 0.361 \\
- My processed corpus, my embeddings & 523857 & 469362 & 0.247 & 0.410 & 0.361 \\
+ My processed corpus, original embeddings & 523857 & 509731 & 0.247 & 0.409 & 0.361 \\
+ My processed corpus, my embeddings & 523857 & 509731 & 0.247 & 0.410 & 0.361 \\
  \hline
 \end{tabular}
 \end{adjustbox}
 
-The original implementation of DRMM returns the expected results. However, the size of vocabulary declared in the paper (0.6M) does not match the one that I obtained.
+The original implementation of DRMM returned the expected results. However, the size of vocabulary declared in the paper (0.6M) does not match with the one that I was given.
 
-When using my processed corpus, the vocabulary size decreases but the documents count slightly increases. All of the metrics descreases as well, wheter I use my embeddings or the originals. Thus, the corpus used seems to influence the performances more than the embeddings.
+When using my processed corpus, the vocabulary size increases as well as the documents count. All of the metrics descreases as well, wheter I use my embeddings or the originals. Thus, my corpus seems to influence the performances more than the embeddings.
 
 \section{Final results}
 
@@ -932,6 +934,12 @@ DRMM LCHxIDF & 0.279 & 0.431 & 0.382 \\ \hline
 \caption{Summary of original results}
 \label{tab:originalres}
 \end{table}
+
+Although there is an high difference between the two tables, my implementation of DRMM reaches similar results to original DRMM with NHxIDF and LCHxIDF configurations. This fact emphasizes how difficult and complex was the replication task.
+
+So, even if the collection test, the architecture of the neural network and the (declared) methodology were the same, it is still very difficult to obtain close results.
+
+This can be motivated by a number of fact: in my case, there may be something different in the preprocessing steps (since the moment that I obtained a vocabulary size higher than the original and an higher number of documents), in the way that I chose some hyper-parameters, in the run to re-rank or in the selection of positive/negative documents samples.
 
 \section{Software used}
 
