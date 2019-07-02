@@ -81,7 +81,7 @@ The workflow that I followed for my implementation is reported in the following 
 
 The time required for each of the previous steps is reported in the following table:
 
-\begin{table}[h!]
+\begin{table}[H]
 \centering
  \begin{tabular}{cc} 
  \hline
@@ -162,7 +162,7 @@ relation to the rest of the document). Thus, judgements have been given under th
 \section{Ad-Hoc Information Retrieval on TREC Robust04}
 \label{sec:leaderboadrobust04}
 
-DRMM is not the first (Neural) IR model to evaluate its performance on TREC Robust 2004 track (\cite{rob04}). In fact, during past years, others retrieval models have been tested against this collection.
+DRMM is not the first (Neural) IR model to evaluate its performance on TREC Robust 2004 track (\cite{rob04}). In fact, during past years, many retrieval models have been tested against this collection.
 
 \begin{figure}[H]
   \centering
@@ -172,18 +172,18 @@ DRMM is not the first (Neural) IR model to evaluate its performance on TREC Robu
 \end{figure}
 
 The above picture reports the state-of-the-art leaderboard of ad-hoc retrieval on the TREC Robust04 collection \footnote{\url{https://paperswithcode.com/sota/ad-hoc-information-retrieval-on-trec-robust04}}.
-QL and Bm25 are two traditional IR models and RM3 is a relevance-based model, that provide a solid baseline while all the others are recent Neural IR models (described in \ref{ssec:historyNeuIR}).
+QL and BM25 are two traditional IR models and RM3 is a relevance-based model, that provide a solid baseline while all the others are recent Neural IR models (described in \ref{ssec:historyNeuIR}).
 
 \begin{table}[H]
 \centering
 \begin{tabular}{ccccc}
 \textbf{Method} & \textbf{MAP} & \textbf{P@20} & \textbf{nDCG@20} & \textbf{Year} \\ \hline
-Anserini BM25+RM3 & 0.290 & \textit{Not available} & \textit{Not available} & 2018 \\ \hline
-Anserini QL+RM3 & 0.274 & \textit{Not available} & \textit{Not available} & 2018 \\ \hline
-SNRM & 0.285 & 0.376 & 0.431 & 2018 \\ \hline
-SNRM-PRF & 0.297 & 0.394 & 0.439 & 2018 \\ \hline
-NPRF-DRMM & 0.290 & 0.406 & 0.45 & 2018 \\ \hline
-DRMM & 0.279 & 0.382 & 0.431 & 2017 \\ \hline
+Anserini BM25+RM3 \cite{neurhype} & 0.290 & \textit{Not available} & \textit{Not available} & 2018 \\ \hline
+Anserini QL+RM3 \cite{neurhype} & 0.274 & \textit{Not available} & \textit{Not available} & 2018 \\ \hline
+SNRM \cite{stdlnneur} & 0.285 & 0.376 & 0.431 & 2018 \\ \hline
+SNRM-PRF \cite{stdlnneur} & 0.297 & 0.394 & 0.439 & 2018 \\ \hline
+NPRF-DRMM \cite{nprf} & 0.290 & 0.406 & 0.45 & 2018 \\ \hline
+DRMM \cite{drmm} & 0.279 & 0.382 & 0.431 & 2017 \\ \hline
 \end{tabular}
 \caption{State of the art of ad-hoc retrieval on TREC Robust04}
 \label{table:leaderboardRob04}
@@ -957,3 +957,5 @@ All of the code was written in Python (v3.6). The libraries used are reported in
  \item Terrier v4.2 (\cite{terrier});
  \item Trec eval 9.0.4.
 \end{itemize}
+
+My implementation of DRMM is available on Github: \url{https://github.com/EmanueleC/DRMM_repro}.

@@ -32,9 +32,9 @@ In this context, the Information Retrieval (IR) community has just begun to expl
 
 Starting from 2013, a new field was born from the intersection of IR and Neural networks: Neural IR, appealing researchers and students.
 
-Although some Neural IR models have indeed produced some improvements over the baselines (w.r.t. document ad-hoc retrieval), the consequence of their application to IR have not yet been understood.
+Although some Neural IR models have indeed produced some improvements over the baselines (w.r.t. document ad-hoc retrieval), the consequence of their application to IR have not yet been completely understood.
 
-There is a strong discussion going on whether IR needs ``Neural IR'' or not. In fact, there are two main problems with these models: one regards efficiency (especially when a large collection of documents is involved), the other regards their ability to learn in a way that can address the complexity of IR tasks (where the concept of \textit{relevance} plays an important role).
+There is a strong discussion going on whether IR can benefit from neural networks or not. In fact, there are two main problems with these models: one regards efficiency (especially when a large collection of documents is considered), the other regards their ability to learn in a way that can address the complexity of IR tasks (where the concept of \textit{relevance} plays an important role).
 
 The first problem arises from the long time required by a Neural IR model to compute a similarity score between an (appropriate) learnt representation of a document and a query. In case of a large corpus, this time becomes prohibitive.
 
@@ -46,12 +46,10 @@ A couple of strategies have been applied to cope with these problem: pseudo rele
 
 Both of them involve the use of a traditional retrieval model in order to obtain supervised data, contributing to the debate on the need of Neural IR.
 
-This work consists of two parts: a bibliographic section and an experimental section.
+The rest of this work is organized as follows: in the first three chapters we conducted an analysis of the field(s) of study: IR, artificial neural networks and Neural IR.
 
-In the first few chapters I conducted an analysis of the field(s) of study: IR, artificial neural networks and Neural IR.
+Then we reviewed several state-of-the-art works in Neural IR and compared them, pointing out their common characteristics and differences.
 
-Then I reviewed several state-of-the-art works in Neural IR and compared them, pointing out their common characteristics and differences.
+In the final chapters we replicated the experiment of Guo et al. in \cite{drmm} and critically evaluated it, with a discussion of the results.
 
-In the final chapters I replicated the experiment of Guo et al. in \cite{drmm} and critically evaluated it, with a discussion of the results.
-
-Thus, my contributions were: a critical analysis of an emerging (hybrid) field of study (Neural IR), the replication (redoing from scratch) and reproduction of DRMM, a deep relevance matching model, contributing to the IR community's growing interests in reproducibility and related issues; and making the source code publicly available so that others can inspect it.
+Thus, my contributions are: a critical analysis of an emerging (hybrid) field of study (Neural IR), the reproduction and replication of DRMM, a deep relevance matching model, contributing to the IR community's growing interests in reproducibility and related issues; and making the source code publicly available.
