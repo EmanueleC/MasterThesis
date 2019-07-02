@@ -8,13 +8,13 @@
 
 As the availability of large datasets and computing power grows, artificial neural networks gain interest from the scientific community and their range of application gets wider.
 
-In recent years they have been applied to Information Retrieval, leading to the birth of an ``hybrid'' discipline called \textit{Neural IR}.
+In the recent years they have been applied to Information Retrieval, leading to the birth of an ``hybrid'' discipline called \textit{Neural IR}.
 
-Neural IR models have shown some improvements over traditional IR baselines on the task of document ranking: by the end of 2016, Deep Relevance Matching Model (DRMM) \cite{drmm} developed by Jiafeng Guo, Yixing Fan, Qingyao Ai, W. Bruce Croft was one of the first Neural IR models to show improvements over Bm25 and Query Likelihood model.
+Neural IR models have shown some improvements over traditional IR baselines on the task of document ranking: by the end of 2016, the Deep Relevance Matching Model (DRMM) \cite{drmm} developed by Jiafeng Guo, Yixing Fan, Qingyao Ai, W. Bruce Croft was one of the first Neural IR models to show improvements over BM25 and the Query Likelihood model.
 
 Since then, Neural IR has been an emerging trend, leading to the possibility of advancing the state-of-the-art, which makes even more important to verify published results, to build future directions on a solid foundation.
 
-The aim of this work is to repeat, reproduce (from scratch) DRMM and test it on the collection Robust04 \cite{rob04}, a dataset of ``difficult topics'' where the state-of-the-art has reached a maximum of $ \sim 30.2\%$ MAP (approximately).
+The aim of this work is to repeat, reproduce DRMM and evaluate it on the collection Robust04 \cite{rob04}, a dataset of ``difficult topics'' where the state-of-the-art has reached a maximum of $ \sim 30.2\%$ Mean Average Precision (approximately).
 
 \bigskip
 
@@ -26,8 +26,8 @@ Negli ultimi anni la disponibilità di grandi moli di dati e di potenza di calco
 
 È stato solo di recente che sono state applicate al reperimento dell'informazione, portando alla nascita di una disciplina ibrida chiamata \textit{Neural IR}.
 
-I modelli di Neural IR hanno mostrato miglioramenti rispetto alle baseline date da modelli tradizionali di IR - e uno di questi è il ``Deep Relevance Matching Model'' (DRMM) \cite{drmm}. Alla fine del 2016, il modello ``Deep Relevance Matching Model'' (DRMM) sviluppato da  Jiafeng Guo, Yixing Fan, Qingyao Ai, W. Bruce Croft è stato uno dei primi a battere le baselines (ad esempio, i modelli Bm25 e Query Likelihood).
+I modelli di Neural IR hanno mostrato miglioramenti rispetto alle baseline date da modelli tradizionali di IR - e uno di questi è il ``Deep Relevance Matching Model'' (DRMM) \cite{drmm}. Alla fine del 2016, il modello ``Deep Relevance Matching Model'' (DRMM) sviluppato da  Jiafeng Guo, Yixing Fan, Qingyao Ai, W. Bruce Croft è stato uno dei primi a superare le baselines (ad esempio, i modelli BM25 e Query Likelihood).
 
 Da allora il Neural IR è stato un trend in crescita e ha contribuito a far avanzare lo stato dell'arte, fatto che rende ancora più importante verificare risultati pubblicati, in modo tale da far procedere la ricerca su una base solida.
 
-Lo scopo di questo lavoro è di ripetere, riprodurre (da zero) DRMM e testarlo sulla collezione Robust04 \cite{rob04}, un dataset di topic su cui è difficile riuscire a ottenere delle buone performance. Lo stato dell'arte ha raggiunto un massimo di $30.2 \%$ MAP.
+Lo scopo di questo lavoro è di ripetere, riprodurre DRMM e valutarlo sulla collezione Robust04 \cite{rob04}, un dataset di topic su cui è difficile riuscire a ottenere delle buone performance. Lo stato dell'arte ha raggiunto un massimo di $30.2 \%$ MAP.
