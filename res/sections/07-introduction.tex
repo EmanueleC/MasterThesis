@@ -40,9 +40,9 @@ The first problem arises from the long time required by a Neural IR model to com
 
 The second problem is especially linked to the difficulty to learn from queries and documents when no large-scale supervised data is available.
 
-Unfortunately, this is often the case, in fact it is very expensive for a human to label a document ``relevant'' or ``not relevant'' with respect to a certain topic (most of it because relevance is a multifaceted concept).
+Unfortunately, this is often the case, in fact it is very expensive for a human to label a document ``relevant'' or ``not relevant'' with respect to a certain information need (most of it because relevance is a multifaceted concept).
 
-A couple of strategies have been applied to cope with these problem: pseudo relevance feedback and a re-ranking approach.
+A couple of strategies have been applied to deal with these problem: to address the first, a re-ranking approach is often used, while for the second, pseudo relevance feedback is used.
 
 Both of them involve the use of a traditional retrieval model in order to obtain supervised data, contributing to the debate on the need of Neural IR.
 
@@ -50,6 +50,8 @@ The rest of this work is organized as follows: in the first three chapters we co
 
 Then we reviewed several state-of-the-art works in Neural IR and compared them, pointing out their common characteristics and differences.
 
-In the final chapters we replicated the experiment of Guo et al. in \cite{drmm} and critically evaluated it, with a discussion of the results.
+In the final chapters we reproduced and replicated the experiment of Guo et al. in \cite{drmm} and critically evaluated it, with a discussion of the results.
+
+The reproduction and replication of the experiment were complex and challenging tasks due to the fact that, even though the source code of DRMM model was publicly available (w/0 preprocessing steps), in the original paper there is no sufficient information to guarantee equal results. The overall work does not limit to the neural network of DRMM model, which is a single component of the system analyzed. The replication tasks involves also preprocessing, word embeddings preparation and the initial retrieval that generates the run to re-rank. Each step has an impact on the performance of DRMM that can increase or decrease the gap between mine results and the originals.
 
 Thus, my contributions are: a critical analysis of an emerging (hybrid) field of study (Neural IR), the reproduction and replication of DRMM, a deep relevance matching model, contributing to the IR community's growing interests in reproducibility and related issues; and making the source code publicly available.
