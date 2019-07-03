@@ -10,11 +10,22 @@ As the availability of large datasets and computing power grows, artificial neur
 
 In the recent years they have been applied to Information Retrieval, leading to the birth of an ``hybrid'' discipline called \textit{Neural IR}.
 
-Neural IR models have shown some improvements over traditional IR baselines on the task of document ranking: by the end of 2016, the Deep Relevance Matching Model (DRMM) \cite{drmm} developed by Jiafeng Guo, Yixing Fan, Qingyao Ai, W. Bruce Croft was one of the first Neural IR models to show improvements over BM25 and the Query Likelihood model.
+Neural IR models have shown some improvements over traditional IR baselines on the task of document ranking:
+by the end of 2016, the Deep Relevance Matching Model (DRMM) \cite{drmm} developed by Jiafeng Guo, Yixing Fan, Qingyao Ai and W. Bruce Croft
+was one of the first Neural IR models to show improvements over BM25 and the Query Likelihood model.
 
-Since then, Neural IR has been an emerging trend, leading to the possibility of advancing the state-of-the-art, which makes even more important to verify published results, to build future directions on a solid foundation.
+Since then, Neural IR has been an emerging trend, leading to the possibility of advancing the state-of-the-art, which makes even more important to verify published results,
+to build future directions on a solid foundation.
 
-The aim of this work is to repeat, reproduce DRMM and evaluate it on the collection Robust04 \cite{rob04}, a dataset of ``difficult topics'' where the state-of-the-art has reached a maximum of $ \sim 30.2\%$ Mean Average Precision (approximately).
+The aim of this work is to reproduce, repeat and evaluate DRMM on the text collection Robust04 \cite{rob04}, a dataset of ``difficult topics'' where the state-of-the-art
+has reached a maximum of $ \sim 30.2\%$ Mean Average Precision (approximately).
+
+Following the same methodology and using the same input data, I firstly reproduce the original experiment with a given implementation publicly available and then,
+I repeat it with a personal implementation of the model.
+
+The results obtained with my implementation of DRMM were able to get close to the originals
+only in two cases and this is motivated by the fact that the paper by Guo et al. does not precisely
+describe all steps and parameters needed to guarantee full reproducibility. For this reason, the repetition task was complex and required a lot of time to be completed.
 
 \bigskip
 
@@ -26,8 +37,13 @@ Negli ultimi anni la disponibilità di grandi moli di dati e di potenza di calco
 
 È stato solo di recente che sono state applicate al reperimento dell'informazione, portando alla nascita di una disciplina ibrida chiamata \textit{Neural IR}.
 
-I modelli di Neural IR hanno mostrato miglioramenti rispetto alle baseline date da modelli tradizionali di IR - e uno di questi è il ``Deep Relevance Matching Model'' (DRMM) \cite{drmm}. Alla fine del 2016, il modello ``Deep Relevance Matching Model'' (DRMM) sviluppato da  Jiafeng Guo, Yixing Fan, Qingyao Ai, W. Bruce Croft è stato uno dei primi a superare le baselines (ad esempio, i modelli BM25 e Query Likelihood).
+I modelli di Neural IR hanno mostrato miglioramenti rispetto alle baseline date da modelli tradizionali di IR - e uno di questi è il ``Deep Relevance Matching Model'' (DRMM) \cite{drmm}. Alla fine del 2016, il modello DRMM sviluppato da  Jiafeng Guo, Yixing Fan, Qingyao Ai, W. Bruce Croft è stato uno dei primi a superare le baselines (ad esempio, i modelli BM25 e Query Likelihood).
 
 Da allora il Neural IR è stato un trend in crescita e ha contribuito a far avanzare lo stato dell'arte, fatto che rende ancora più importante verificare risultati pubblicati, in modo tale da far procedere la ricerca su una base solida.
 
 Lo scopo di questo lavoro è di ripetere, riprodurre DRMM e valutarlo sulla collezione Robust04 \cite{rob04}, un dataset di topic su cui è difficile riuscire a ottenere delle buone performance. Lo stato dell'arte ha raggiunto un massimo di $30.2 \%$ MAP.
+
+Seguendo la stessa metodologia e gli stessi dati, ho dapprima riprodotto l'esperimento originale con un'implementazione disponibilile pubblicamente e poi ho ripetuto l'esperimento usando un'implementazione personale del modello.
+
+I risultati ottenuti con la mia implementazione di DRMM sono stati in grado di avvicinarsi agli originali solo in due casi e questo è motivato dal fatto che il paper di Guo et al. non
+riporta precisamente tutti i passaggi effettuati e i parametri necessari per garantire completa riproducibilità. Per questa ragione, il task di ripetizione è stato complesso e ha richiesto molto tempo per essere completato.

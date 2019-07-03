@@ -22,7 +22,7 @@ Before (and while) implementing DRMM I considered different options available re
 \begin{itemize}
  \item the corpus and queries can be stemmed/not stemmed, processed with
 stopwords/without stopwords, and different fields (or combination of them) from topics can be considered (i.e. title and description);
- \item the preranked results can be obtained with a wide range of retrieval models. For instance, the authors of the original paper use Bm25 and QL models as first-stage rankers.
+ \item the preranked results can be obtained with a wide range of retrieval models. For instance, the authors of the original paper use BM25 and QL models as first-stage rankers.
 \end{itemize}
 
 \textbf{DRMM system}:
@@ -34,7 +34,7 @@ stopwords/without stopwords, and different fields (or combination of them) from 
 \end{itemize}
 
 After considering the above options, I chose the following configuration for my tests:
-both corpus text / query titles stemmed and without stopwords; the top 2000 preranked results with both QL and Bm25 retrieval algorithms, 300 embeddings size, and training/testing on all histograms mode/term gating network.
+both corpus text / query titles stemmed and without stopwords; the top 2000 preranked results with both QL and BM25 retrieval algorithms, 300 embeddings size, and training/testing on all histograms mode/term gating network.
 
 Despite a few hyperparameters of the model were given in \cite{drmm}, I had to (empirically) try all the others (e.g. number of epochs, number of documents to sample from the training set, initial learning rate and early stopping values).
 
@@ -196,7 +196,7 @@ Preprocessing steps:
 
 \begin{itemize}
 \item Parsing of collection and topics;
-\item Indexing of parsed collection and queries with Terrier Dirichlet QL and Bm25 algorithms (to obtain preranked data);
+\item Indexing of parsed collection and queries with Terrier Dirichlet QL and BM25 algorithms (to obtain preranked data);
 \item Stemming and stopwords removal;
 \item Word-embeddings preparation both for collection and queries with Word2Vec (although queries-based embeddings were ignored) - this is where originates the out-of-vocabulary problem;
 \item Pre-computed IDF values for each query term (input to query term gating);
@@ -476,9 +476,9 @@ Method & MAP & nDCG\@20 & P\@20 \\ \hline
 Galago DirichletLM($\mu=1500$) & 0.206 & 0.390 & 0.326 \\
 Galago Bm25($k_1 = 1.2, k_3 = 1.0, b=0.75$) & 0.193 & 0.377 & 0.319 \\
 Terrier DirichletLM($\mu=2500$) & 0.241 & 0.404 & 0.343 \\
-Terrier Bm25($k_1 = 1.2, k_3 = 8d, b = 0.75d$) & 0.247 & 0.417 & 0.359 \\
+Terrier BM25($k_1 = 1.2, k_3 = 8d, b = 0.75d$) & 0.247 & 0.417 & 0.359 \\
 Original QL(\textit{unknown parameters}) & 0.253 & 0.415 & 0.369 \\
-Original Bm25(\textit{unknown parameters}) & 0.255 & 0.418 & 0.370
+Original BM25(\textit{unknown parameters}) & 0.255 & 0.418 & 0.370
 \end{tabular}
 \caption{Evaluation of preranked results}
 \end{table}
@@ -487,14 +487,14 @@ I chose to use the retrieval results which performance were closer to the origin
 
 As Guo pointed out in an issue in MatchZoo \footnote{\url{https://github.com/NTMC-Community/MatchZoo/issues/604}}, on Robust04 dataset there is a data imbalance problem, in fact the number of labelled documents for each topic is significantly different from one another.
 In this way, the model could be dominated by a specific topic.
-Figure \ref{fig:queries_frequencies_bm} shows the (logarithmically scaled) distribution of documents retrieved by Bm25 per topic. It can be noticed that there is also a different distribution of positive and negative examples.
-For instance, QL algorithm, on average, retrieves only 3.68\% of positive samples for each topic (with some topics with 0 positive samples - e.g. topic 672) while Bm25 retrieves on average 3.70\% positive samples per topic.
-Since the moment that the distributions relative to the runs obtained with these two algorithms are very similar, just the one relative to Bm25 is shown.
+Figure \ref{fig:queries_frequencies_bm} shows the (logarithmically scaled) distribution of documents retrieved by BM25 per topic. It can be noticed that there is also a different distribution of positive and negative examples.
+For instance, QL algorithm, on average, retrieves only 3.68\% of positive samples for each topic (with some topics with 0 positive samples - e.g. topic 672) while BM25 retrieves on average 3.70\% positive samples per topic.
+Since the moment that the distributions relative to the runs obtained with these two algorithms are very similar, just the one relative to BM25 is shown.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.7\textwidth]{queries_frequenciesBm25.png}
-  \caption{Queries imbalance problem - Bm25 algorithm}
+  \caption{Queries imbalance problem - BM25 algorithm}
   \label{fig:queries_frequencies_bm}
 \end{figure}
 
@@ -556,7 +556,7 @@ In order to evaluate the model under different configurations (to obtain possibl
 
 The following tables report the results of my implementation of DRMM. Each set of tables was obtained w.r.t. one of the three histograms modalities (ch, nh, lch). Then, each table in a set show results for different number of (balanced) positive (relevant)/negative (non relevant) samples for each query used for training.
 
-The run to re-rank is given by the pre-ranked results from Terrier Bm25.
+The run to re-rank is given by the pre-ranked results from Terrier BM25.
 
 \begin{adjustbox}{center, tabular=ccc, caption={DRMM runs (count-based histograms), IDF weighting, stemmed with stopwords removal}, nofloat=table}
 \centering
@@ -869,7 +869,7 @@ MAP & P@20 & nDCG@20 \\ \hline
 \end{tabular}
 \end{adjustbox}
 
-Since the moment that the Terrier Dirichlet LM run had a lower MAP and P@20 than the Bm25 one, these results are lower than the previous ones. This confirm that a Neural IR system that operate in a re-ranking strategy is very dependent on the previous retrieval system(s).
+Since the moment that the Terrier Dirichlet LM run had a lower MAP and P@20 than the BM25 one, these results are lower than the previous ones. This confirm that a Neural IR system that operate in a re-ranking strategy is very dependent on the previous retrieval system(s).
 
 \section{Reproduction of the experiment}
 

@@ -34,13 +34,19 @@ Starting from 2013, a new field was born from the intersection of IR and Neural 
 
 Although some Neural IR models have indeed produced some improvements over the baselines (w.r.t. document ad-hoc retrieval), the consequence of their application to IR have not yet been completely understood.
 
-There is a strong discussion going on whether IR can benefit from neural networks or not. In fact, there are two main problems with these models: one regards efficiency (especially when a large collection of documents is considered), the other regards their ability to learn in a way that can address the complexity of IR tasks (where the concept of \textit{relevance} plays an important role).
+There is a strong discussion going on whether IR can benefit from neural networks or not. In fact, there are two main problems with these models: one regards
+efficiency (especially when a large collection of documents is considered), the other regards their ability to address the complexity
+of IR tasks, i.e. learn patterns in query and document text that indicate \textit{relevance}, even if they use different
+vocabulary, and even if the patterns are task-specific or context-specific.
 
-The first problem arises from the long time required by a Neural IR model to compute a similarity score between an (appropriate) learnt representation of a document and a query. In case of a large corpus, this time becomes prohibitive.
+The first problem arises from the long time required by a Neural IR model to compute a similarity score between an (appropriate) learnt
+representation of a document and a query. In case of a large corpus, this time becomes prohibitive.
 
-The second problem is especially linked to the difficulty to learn from queries and documents when no large-scale supervised data is available.
+The second problem is especially linked to the difficulty to learn from queries and documents when no large-scale supervised data is available
+(unsupervised learning is typically used to learn text representation, while supervised or semi-supervised learning are used to learn ``to match'').
 
-Unfortunately, this is often the case, in fact it is very expensive for a human to label a document ``relevant'' or ``not relevant'' with respect to a certain information need (most of it because relevance is a multifaceted concept).
+Unfortunately, this is often the case, in fact it is very expensive for a human to label a document ``relevant'' or ``not relevant''
+with respect to a certain information need (most of it because relevance is a multifaceted concept).
 
 A couple of strategies have been applied to deal with these problem: to address the first, a re-ranking approach is often used, while for the second, pseudo relevance feedback is used.
 
