@@ -427,7 +427,7 @@ Note that Word2Vec does not capture antonymy, so opposite vector embeddings are 
   \subfloat[Positive document histograms]{\includegraphics[width=0.8\textwidth]{positive_ch.png}\label{fig:posch}}
   \hfill
   \subfloat[Negative document histograms]{\includegraphics[width=0.8\textwidth]{negative_ch.png}\label{fig:negch}}
-  \caption{Count-based istograms}
+  \caption{Count-based histograms}
   \label{fig:hist_ex}
 \end{figure}
 
@@ -895,7 +895,7 @@ In the following table, I compared the results that I obtained using the origina
 
 The original implementation of DRMM returned the expected results. However, the size of vocabulary declared in the paper (0.6M) does not match with the one that I was given.
 
-When using my processed corpus, the vocabulary size increases as well as the documents count. All of the metrics descreases as well, wheter I use my embeddings or the originals. Thus, my corpus seems to influence the performances more than the embeddings.
+When using my processed corpus, the vocabulary size increases as well as the documents count. All of the metrics descreases as well, whether I use my embeddings or the originals. Thus, my corpus seems to influence the performances more than the embeddings.
 
 \section{Final results}
 
